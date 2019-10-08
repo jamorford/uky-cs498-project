@@ -1,0 +1,79 @@
+<section id="course_new_page" class="container">
+	<form id="new_course_form" target="_self" method="POST">
+		<h2>New Course Portfolio</h2>
+		<div class="row container">
+			<div class="col">
+				<label for="department">Department</label>
+			</div>
+			<div class="col">
+				<select name="department" {{#department}}readonly{{/department}}>
+					{{#departments}}
+					<option value="{{id}}" selected>{{identifier}}</option>
+					{{/departments}}
+				</select>
+			</div>
+		</div>
+		{{#department}}
+		<div class="row container">
+			<div class="col">
+				<label for="course_number">Course Number</label>
+			</div>
+			<div class="col">
+				<input type="number" name="course_number">
+			</div>
+		</div>
+		<div class="row container">
+			<div class="col">
+				<label for="course_section">Section</label>
+			</div>
+			<div class="col">
+				<input type="number" name="course_section">
+			</div>
+		</div>
+		<div class="row container">
+			<div class="col">
+				<label for="semester">Semester</label>
+			</div>
+			<div class="col">
+				<select name="semester">
+					{{#semesters}}
+					<option value="{{id}}">{{value}}</option>
+					{{/semesters}}
+				</select>
+			</div>
+		</div>
+		<div class="row container">
+			<div class="col">
+				<label for="course_number">Year</label>
+			</div>
+			<div class="col">
+				<input type="number" name="course_year">
+			</div>
+		</div>
+		<div class="row container">
+			<div class="col">
+				<label for="course_number">Number of students</label>
+			</div>
+			<div class="col">
+				<input type="number" name="num_students">
+			</div>
+		</div>
+		<div class="row container">
+			<div class="col-6 container">
+				<label for="course_number">Assigned Student Learning Outcomes</label>
+			</div>
+			<div class="col-6 row">
+				{{#student_learning_outcomes}}
+				<div class="col-4">
+					<input type="checkbox" name="slo_{{id}}">SLO{{index}}</input>
+				</div>
+				{{/student_learning_outcomes}}
+			</div>
+		</div>
+		{{/department}}
+		<div class="row container">
+			{{#department}}<input type="submit" name="course_submit" value="Create"/>{{/department}}
+			{{^department}}<input type="submit" name="department_submit" value="Select Department">{{/department}}
+		</div>
+	</form>
+</section>

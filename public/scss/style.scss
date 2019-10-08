@@ -1,0 +1,27 @@
+body {
+	text-align: center;
+	font: 16px "proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+a {
+	color: #00B7FF;
+	text-decoration: none;
+}
+
+.material-icons {
+	vertical-align: middle;
+	font-size: inherit !important;
+}
+
+#course_index_page {
+	text-align: left;
+	table {
+		width: 100%;
+		text-align: center;
+
+		tr:first-child {
+			border-bottom: 1px solid black
+		}
+	}
+}
+	

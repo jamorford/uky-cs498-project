@@ -1,0 +1,82 @@
+<section id="course_manage_page" class="container">
+	<h2>CS498 Course Portfolio</h2>
+	<div class="container row">
+		Course Summary
+	</div>
+	<div class="container row">
+		{{#student_learning_outcomes}}
+		<h3>Student Learning Outcome {{index}}</h3>
+		<p>{{description}}</p>
+		<table id="student_learning_outcome_rubric">
+			<tr>
+				<th>Assessment Score</th>
+				{{#metrics}}
+				<th>{{name}}</th>
+				{{/metrics}}
+			</tr>
+			<tr>
+				<td>Exceeds Standards</td>
+				{{#metrics}}
+				<td>{{exceeds}}</td>
+				{{/metrics}}
+			</tr>
+			<tr>
+				<td>Meets Standards</td>
+				{{#metrics}}
+				<td>{{meets}}</td>
+				{{/metrics}}
+			</tr>
+			<tr>
+				<td>Partially Meets Standards</td>
+				{{#metrics}}
+				<td>{{partially}}</td>
+				{{/metrics}}
+			</tr>
+			<tr>
+				<td>Does Not Meet Standards</td>
+				{{#metrics}}
+				<td>{{not}}</td>
+				{{/metrics}}
+			</tr>
+		</table>
+		{{#artifacts}}
+		<div class="container row">
+			<h3>Artifact 1: {{name}}</h3>
+			<form id="edit_course_form" target="_self" method="POST">
+				<table>
+					<tr>
+						<th>Student Index</th>
+						{{#metrics}}
+						<th>{{name}}</th>
+						{{/metrics}}
+						<th>Student Submission</th>
+					</tr>
+					{{#evaluations}}
+					<tr>
+						<td>{{index}}</td>
+						{{#evaluation}}
+						<td>
+							<select name="student-{{index}}-category-{{metric}}">
+								<option value="6">Exceeds</option>
+								<option value="7">Meets</option>
+								<option value="8">Partially</option>
+								<option value="9">Not</option>
+								<option value="10">Does Not Apply</option>
+							</select>
+							<script>$('[name=student-{{index}}-category-{{metric}}]').val('{{value}}')</script>
+						</td>
+						{{/evaluation}}
+						<td>
+							<input name="student-1-submission" type="file"></input>
+							attach <i class="material-icons">attachment</i>
+						</td>
+					</tr>
+					{{/evaluations}}
+				</table>
+				<input type="submit"/>
+			</form>
+		</div>
+		{{/artifacts}}
+		{{/student_learning_outcomes}}
+	</div>
+</section>
