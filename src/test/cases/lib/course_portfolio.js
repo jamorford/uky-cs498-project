@@ -12,5 +12,5 @@ describe('Lib - CoursePortfolio', () => {
 		})
 
 	})
-	
+
 })

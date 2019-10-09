@@ -6,9 +6,9 @@ class User extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'users';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return 'linkblue_username';
   }
 
@@ -29,10 +29,10 @@ class User extends Model {
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		
+
 
     return {
-		};
+    };
   }
 }
 

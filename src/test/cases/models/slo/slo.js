@@ -8,7 +8,7 @@ describe('Model - StudentLearningOutcome', () => {
 		it('with id', async () => {
 			const slo = await StudentLearningOutcome.query()
 				.findById(1)
-	
+
 			expect(slo).to.deep.equal({
 				id: 1,
 				department_id: 1,
@@ -30,5 +30,5 @@ describe('Model - StudentLearningOutcome', () => {
 		})
 
 	})
-	
+
 })

@@ -6,9 +6,9 @@ class Term extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'term';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return ['id'];
   }
 
@@ -22,26 +22,26 @@ class Term extends Model {
 
       properties: {
         id: { type: 'integer' },
-				type: { type: 'integer' },
-				value: { type: 'string' }
+        type: { type: 'integer' },
+        value: { type: 'string' }
       }
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		const TermType = require('./TermType');
+    const TermType = require('./TermType');
 
     return {
-			owner: {
-				relation: Model.BelongsToOneRelation,
-				modelClass: TermType,
-				join: {
-					from: 'term.type',
-					to: 'term_type.id'
-				}
-			}
-		};
+      owner: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: TermType,
+        join: {
+          from: 'term.type',
+          to: 'term_type.id'
+        }
+      }
+    };
   }
 }
 

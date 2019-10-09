@@ -23,14 +23,15 @@ app.use(helmet())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
-	extended: false
+  extended: false
 }));
 app.use(cookieParser());
-app.use(sassMiddleware({
+app.use('/css', sassMiddleware({
   src: path.join(project_root, 'public/scss'),
   dest: path.join(project_root, 'public/css'),
   indentedSyntax: false,
-  sourceMap: true
+  sourceMap: true,
+  debug: false
 }));
 app.use(express.static(path.join(project_root, 'public')));
 

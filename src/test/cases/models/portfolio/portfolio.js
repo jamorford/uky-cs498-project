@@ -8,7 +8,7 @@ describe('Model - CoursePortfolio', () => {
 		it('with id', async () => {
 			const slo = await CoursePortfolio.query()
 				.findById(1)
-	
+
 			expect(slo).to.deep.equal({
 				id: 1,
 				course_id: 1,
@@ -57,5 +57,5 @@ describe('Model - CoursePortfolio', () => {
 		})
 
 	})
-	
+
 })

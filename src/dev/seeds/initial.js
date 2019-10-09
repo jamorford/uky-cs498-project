@@ -161,14 +161,17 @@ exports.seed = knex => Promise.resolve((async () => {
 	])
 	await knex('artifact').insert([
 		{
+			id: 1,
 			portfolio_slo_id: 1,
 			index: 1
 		},
 		{
+			id: 2,
 			portfolio_slo_id: 1,
 			index: 2
 		},
 		{
+			id: 3,
 			portfolio_slo_id: 1,
 			index: 3
 		},

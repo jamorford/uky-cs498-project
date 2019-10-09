@@ -6,9 +6,9 @@ class CoursePortfolioArtifactEvaluation extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'artifact_evaluation';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return 'id';
   }
 
@@ -19,36 +19,36 @@ class CoursePortfolioArtifactEvaluation extends Model {
     return {
       type: 'object',
       required: [
-				'artifact_id',
-				'evaluation_index',
-				'student_index'
-			],
+        'artifact_id',
+        'evaluation_index',
+        'student_index'
+      ],
 
       properties: {
         id: { type: 'integer' },
-				artifact_id: { type: 'integer' },
-				evaluation_index: { type: 'integer' },
-				student_index: { type: 'integer' },
-				evaluation: { type: 'string' },
-				file: { type: 'string' }
+        artifact_id: { type: 'integer' },
+        evaluation_index: { type: 'integer' },
+        student_index: { type: 'integer' },
+        evaluation: { type: 'string' },
+        file: { type: 'string' }
       }
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		const Artifact = require('.')
+    const Artifact = require('.')
 
     return {
-			owner: {
-				relation: Model.BelongsToOneRelation,
-				modelClass: Artifact,
-				join: {
-					from: 'artifact_evaluation.artifact_id',
-					to: 'artifact.id'
-				}
-			}
-		};
+      owner: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Artifact,
+        join: {
+          from: 'artifact_evaluation.artifact_id',
+          to: 'artifact.id'
+        }
+      }
+    };
   }
 }
 

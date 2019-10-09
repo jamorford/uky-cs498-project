@@ -6,9 +6,9 @@ class Metric extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'slo_metric';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return 'id';
   }
 
@@ -22,29 +22,29 @@ class Metric extends Model {
 
       properties: {
         id: { type: 'integer' },
-				name: { type: 'integer' },
-				exceeds: { type: 'string' },
-				meets: { type: 'string' },
-				partially: { type: 'string' },
-				not: { type: 'string' },
+        name: { type: 'integer' },
+        exceeds: { type: 'string' },
+        meets: { type: 'string' },
+        partially: { type: 'string' },
+        not: { type: 'string' },
       }
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		const StudentLearningOutcome = require('./');
+    const StudentLearningOutcome = require('./');
 
     return {
-			owner: {
-				relation: Model.BelongsToOneRelation,
-				modelClass: StudentLearningOutcome,
-				join: {
-					from: 'slo_metric.slo_id',
-					to: 'slo.id'
-				}
-			}
-		};
+      owner: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: StudentLearningOutcome,
+        join: {
+          from: 'slo_metric.slo_id',
+          to: 'slo.id'
+        }
+      }
+    };
   }
 }
 

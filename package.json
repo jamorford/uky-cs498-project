@@ -4,13 +4,13 @@
   "description": "base project for cs498 final project",
   "main": "app.js",
   "scripts": {
-    "start:unix": "node ./bin/www",
-    "scratch:unix": "node ./src/dev/scratch.js",
-    "test:unix": "./node_modules/mocha/bin/mocha \"src/test/cases/**/*.js\"",
-    "debug:unix": "node ./node_modules/nodemon/bin/nodemon.js --exec npm run start:unix",
-		"migrate:unix": "node ./node_modules/knex/bin/cli.js migrate:latest",
-		"seed:unix": "node ./node_modules/knex/bin/cli.js seed:run",
-		"setup_db:unix": "npm run migrate:unix && npm run seed:unix"
+    "start": "node ./bin/www",
+    "scratch": "node ./src/dev/scratch.js",
+    "debug": "node ./node_modules/nodemon/bin/nodemon.js --exec npm run start",
+    "migrate": "node ./node_modules/knex/bin/cli.js migrate:latest",
+    "seed": "node ./node_modules/knex/bin/cli.js seed:run",
+    "setup_db": "npm run migrate && npm run seed",
+    "test": "node ./node_modules/mocha/bin/mocha \"src/test/cases/**/*.js\""
   },
   "repository": {
     "type": "git",

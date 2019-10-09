@@ -3,8 +3,8 @@ var mustache = require('../common/mustache')
 var router = express.Router();
 
 /* GET login page */
-router.get('/', function(req, res, next) {
-  res.render('base_template', {
+router.get('/', function (req, res, next) {
+	res.render('base_template', {
 		title: 'Login',
 		body: mustache.render('login')
 	})

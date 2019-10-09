@@ -17,7 +17,7 @@ module.exports.new = async ({
 }
 
 
-module.exports.get = async (portfolio_id)  =>{
+module.exports.get = async (portfolio_id) => {
 	let raw_portfolio = await Portfolio.query()
 		.eager({
 			owner: {
@@ -50,8 +50,6 @@ module.exports.get = async (portfolio_id)  =>{
 			year: raw_portfolio.year
 		},
 	}
-
-	console.log(raw_portfolio)
 
 	for (let i in raw_portfolio.outcomes) {
 		portfolio.outcomes.push(Object.assign({
