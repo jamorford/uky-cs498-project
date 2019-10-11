@@ -33,7 +33,7 @@ class Course extends Model {
     const Department = require('./Department');
 
     return {
-      owner: {
+      department: {
         relation: Model.BelongsToOneRelation,
         modelClass: Department,
         join: {

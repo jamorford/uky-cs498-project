@@ -47,7 +47,7 @@ class CoursePortfolio extends Model {
 		const StudentLearningOutcome = require('./StudentLearningOutcome')
 
 		return {
-			owner: {
+			course: {
 				relation: Model.BelongsToOneRelation,
 				modelClass: Course,
 				join: {

@@ -1,49 +1,36 @@
+const common = {
+	client: 'postgresql',
+	migrations: {
+		directory: './src/main/migrations'
+	},
+	pool: {
+		min: 2,
+		max: 10
+	}
+}
+
 module.exports = {
-  development: {
-    client: 'postgresql',
+  development: Object.assign({
     connection: {
       database: 'abet_system_dev'
-    },
-    migrations: {
-      directory: './src/main/migrations'
     },
     seeds: {
       directory: './src/dev/seeds'
-    },
-    pool: {
-      min: 2,
-      max: 10
     }
-  },
+	}, common),
 
-  test: {
-    client: 'postgresql',
+  test: Object.assign({
     connection: {
-      database: 'abet_system_dev'
-    },
-    migrations: {
-      directory: './src/main/migrations'
+      database: 'abet_system_test'
     },
     seeds: {
       directory: './src/test/seeds'
-    },
-    pool: {
-      min: 2,
-      max: 10
     }
-  },
+  }, common),
 
-  production: {
-    client: 'postgresql',
+  production: Object.assign({
     connection: {
       database: 'abet_system'
-    },
-    migrations: {
-      directory: './src/main/migrations'
-    },
-    pool: {
-      min: 2,
-      max: 10
     }
-  }
+  }, common)
 };

@@ -50,19 +50,19 @@ If you have a package manager on your machine I recommend using it to install ps
 
 Otherwise, download and run the PostgreSQL installer from [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
 
-Once installed create the following database schema `abet_system_dev`, `CREATE DATABASE abet_system_dev;`.
+Once installed create the following database schemas `abet_system_dev` and `abet_system_test`, `CREATE DATABASE abet_system_dev; CREATE DATABASE abet_system_test;`.
 
 Then open up the `knexfile.js` file located in the root of this project and add in your database connection information. Here is an example of what that modification could look like.
 
 ```
 connection: {
-    database: 'abet_system_dev',
-    user: 'postgres',
-    password: 'password'
+	database: 'abet_system_dev',
+	user: 'postgres',
+	password: 'password'
 }
 ```
 
-Then run `npm run setup_db`. This command will fail if you try to run it again after it has succeeded once.
+Then run `npm run setup_db`. This will run all database migrations and seed both the test and dev servers.
 
 ## Operation Guide
 
@@ -80,11 +80,15 @@ Then run `npm run setup_db`. This command will fail if you try to run it again a
 
 ### to run database migrations
 
-`npm run migrate`
+`npm run migrate` - run migrations on dev
+
+`npm run migrate:test` - run migrations on test
 
 ### to seed the database with dev data
 
-`npm run seed`
+`npm run seed` - seeds dev database
+
+`npm run seed:test` - seeds test database
 
 ### to run both database migrations and seed the database
 

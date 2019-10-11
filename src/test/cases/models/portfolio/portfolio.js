@@ -27,7 +27,7 @@ describe('Model - CoursePortfolio', () => {
 		it('belongs to course', async () => {
 			const portfolio = await CoursePortfolio.query()
 				.findById(1)
-			const course = await portfolio.$relatedQuery('owner')
+			const course = await portfolio.$relatedQuery('course')
 
 			expect(course).to.have.property('number', 498)
 		})
