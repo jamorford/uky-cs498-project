@@ -6,9 +6,9 @@ class TermType extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'term_type';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return 'type';
   }
 
@@ -29,18 +29,18 @@ class TermType extends Model {
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		const Term = require('./Term');
+    const Term = require('./Term');
 
     return {
-			terms: {
-				relation: Model.HasManyRelation,
-				modelClass: Term,
-				join: {
-					from: 'term_type.id',
-					to: 'term.type'
-				}
-			}
-		};
+      terms: {
+        relation: Model.HasManyRelation,
+        modelClass: Term,
+        join: {
+          from: 'term_type.id',
+          to: 'term.type'
+        }
+      }
+    };
   }
 }
 

@@ -7,18 +7,18 @@ describe('Model - User', () => {
 
 		it('with user id', async () => {
 			const user = await User.query()
-				.findOne({id: 1})
-	
+				.findOne({ id: 1 })
+
 			expect(user).to.deep.equal({
 				id: 1,
 				linkblue_username: 'user'
 			})
 		})
-	
+
 		it('with linkblue_username', async () => {
 			const user = await User.query()
 				.findById('user')
-	
+
 			expect(user).to.deep.equal({
 				id: 1,
 				linkblue_username: 'user'

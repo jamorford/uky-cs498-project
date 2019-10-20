@@ -8,18 +8,18 @@ describe('Model - Term', () => {
 		it('with term id', async () => {
 			const term = await Term.query()
 				.findById(1)
-	
+
 			expect(term).to.deep.equal({
 				id: 1,
 				type: 1,
 				value: 'fall'
 			})
 		})
-	
+
 		it('with type id', async () => {
 			const terms = await Term.query()
 				.where('type', 1)
-	
+
 			expect(terms).to.deep.equal([
 				{
 					id: 1,
@@ -65,5 +65,5 @@ describe('Model - Term', () => {
 		})
 
 	})
-	
+
 })

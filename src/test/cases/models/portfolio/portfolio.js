@@ -8,7 +8,7 @@ describe('Model - CoursePortfolio', () => {
 		it('with id', async () => {
 			const slo = await CoursePortfolio.query()
 				.findById(1)
-	
+
 			expect(slo).to.deep.equal({
 				id: 1,
 				course_id: 1,
@@ -27,7 +27,7 @@ describe('Model - CoursePortfolio', () => {
 		it('belongs to course', async () => {
 			const portfolio = await CoursePortfolio.query()
 				.findById(1)
-			const course = await portfolio.$relatedQuery('owner')
+			const course = await portfolio.$relatedQuery('course')
 
 			expect(course).to.have.property('number', 498)
 		})
@@ -57,5 +57,5 @@ describe('Model - CoursePortfolio', () => {
 		})
 
 	})
-	
+
 })

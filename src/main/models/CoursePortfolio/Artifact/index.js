@@ -3,42 +3,42 @@
 const { Model } = require('objection');
 
 class CoursePortfolioArtifact extends Model {
-  // Table name is the only required property.
-  static get tableName() {
-    return 'artifact';
+	// Table name is the only required property.
+	static get tableName() {
+		return 'artifact';
 	}
-	
-	static get idColumn() {
-    return 'id';
-  }
 
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
-  static get jsonSchema() {
-    return {
-      type: 'object',
-      required: [
+	static get idColumn() {
+		return 'id';
+	}
+
+	// Optional JSON schema. This is not the database schema! Nothing is generated
+	// based on this. This is only used for validation. Whenever a model instance
+	// is created it is checked against this schema. http://json-schema.org/.
+	static get jsonSchema() {
+		return {
+			type: 'object',
+			required: [
 				'portfolio_slo_link_id',
 				'index',
 				'name'
 			],
 
-      properties: {
-        id: { type: 'integer' },
+			properties: {
+				id: { type: 'integer' },
 				portfolio_slo_link_id: { type: 'integer' },
 				index: { type: 'integer' },
 				name: { type: 'string' }
-      }
-    };
-  }
+			}
+		};
+	}
 
-  // This object defines the relations to other models.
-  static get relationMappings() {
+	// This object defines the relations to other models.
+	static get relationMappings() {
 		const CoursePortfolioStudentLearningOutcome = require('../StudentLearningOutcome')
 		const Evaluation = require('./Evaluation')
 
-    return {
+		return {
 			owner: {
 				relation: Model.BelongsToOneRelation,
 				modelClass: CoursePortfolioStudentLearningOutcome,
@@ -56,7 +56,7 @@ class CoursePortfolioArtifact extends Model {
 				}
 			}
 		};
-  }
+	}
 }
 
 module.exports = CoursePortfolioArtifact;

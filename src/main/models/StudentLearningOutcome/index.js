@@ -6,9 +6,9 @@ class StudentLearningOutcome extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'slo';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return 'id';
   }
 
@@ -22,27 +22,27 @@ class StudentLearningOutcome extends Model {
 
       properties: {
         id: { type: 'integer' },
-				index: { type: 'integer' },
-				description: { type: 'string' },
-				student_learning_objective_metric: { type: 'json' }
+        index: { type: 'integer' },
+        description: { type: 'string' },
+        student_learning_objective_metric: { type: 'json' }
       }
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		const Metric = require('./Metric');
+    const Metric = require('./Metric');
 
     return {
-			metrics: {
-				relation: Model.HasManyRelation,
-				modelClass: Metric,
-				join: {
-					from: 'slo.id',
-					to: 'slo_metric.slo_id'
-				}
-			}
-		};
+      metrics: {
+        relation: Model.HasManyRelation,
+        modelClass: Metric,
+        join: {
+          from: 'slo.id',
+          to: 'slo_metric.slo_id'
+        }
+      }
+    };
   }
 }
 

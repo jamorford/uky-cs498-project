@@ -6,9 +6,9 @@ class Course extends Model {
   // Table name is the only required property.
   static get tableName() {
     return 'course';
-	}
-	
-	static get idColumn() {
+  }
+
+  static get idColumn() {
     return 'id';
   }
 
@@ -22,26 +22,26 @@ class Course extends Model {
 
       properties: {
         id: { type: 'integer' },
-				department_id: { type: 'integer' },
-				number: { type: 'integer' },
+        department_id: { type: 'integer' },
+        number: { type: 'integer' },
       }
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-		const Department = require('./Department');
+    const Department = require('./Department');
 
     return {
-			owner: {
-				relation: Model.BelongsToOneRelation,
-				modelClass: Department,
-				join: {
-					from: 'course.department_id',
-					to: 'department.id'
-				}
-			}
-		};
+      department: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Department,
+        join: {
+          from: 'course.department_id',
+          to: 'department.id'
+        }
+      }
+    };
   }
 }
 

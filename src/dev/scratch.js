@@ -1,5 +1,10 @@
+// load objection
+require("../main/common/objection");
+
 // this file is intended to allow the developer to test different functional manually
+const CoursePortfolioArtifact = require('../main/models/CoursePortfolio/Artifact');
 
 (async () => {
-	console.log(JSON.stringify([{metric: 0, value: 6},{metric: 1, value: 7},{metric: 2, value: 7},{metric: 3, value: 7},{metric: 4, value: 8}]))
+	console.log(await CoursePortfolioArtifact.query())
+	console.log(await CoursePortfolioArtifact.query().findById(1))
 })()
