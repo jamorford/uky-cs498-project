@@ -53,9 +53,6 @@ module.exports.new = async ({
 	}
 
 
-	console.log('portfolio query')
-	console.log(portfolio_query)
-
 	// Check if portfolio already exists
 	let portfolio_exist = await Portfolio
 		.query()
@@ -64,16 +61,9 @@ module.exports.new = async ({
 		.where('section', section)
 		.where('year', year)
 
-
-	console.log('portfolio exist')
-	console.log(portfolio_exist)
-
 	// If portfolio doesn't exist, make another one
 	if (portfolio_exist.length == 0) {
 		let portfolio_result = await Portfolio.query().insert(portfolio_query)
-
-		console.log('portfolio result')
-		console.log(portfolio_result)
 
 		// Make a query to connect the portfolio to the chosen SLO
 		let portfolio_slo_query = {
@@ -81,15 +71,8 @@ module.exports.new = async ({
 			slo_id: parseInt(student_learning_outcomes[0])
 		}
 
-		console.log('portfolio slo query')
-		console.log(portfolio_slo_query)
-
-
 		let portfolio_slo_result = await CoursePortfolioStudentLearningOutcome.query().insert(portfolio_slo_query)
 		
-		console.log('portfolio slo result')
-		console.log(portfolio_slo_result)
-
 		// Make an array for artifacts
 		let artifacts = []
 
@@ -102,28 +85,16 @@ module.exports.new = async ({
 				name: '_unset_'
 			}
 
-			console.log('artifact query')
-			console.log(artifact_query)
-
 			artifact_result = await Artifact.query().insert(artifact_query)
 			
-			console.log('artifact result')
-			console.log(artifact_result)
-
 			artifacts.push(artifact_result)
 		}
-
-		console.log('artifacts')
-		console.log(artifacts)
 
 		// Make an array for artifact ids for easy 'loopability' (idk if that's a word)
 		let artifact_ids = []
 		artifact_ids.push(artifacts[0].id)
 		artifact_ids.push(artifacts[1].id)
 		artifact_ids.push(artifacts[2].id)
-
-		console.log('artifact ids')
-		console.log(artifact_ids)
 
 		for(let i=0; i<artifact_ids.length; i++){
 			let student_indexes = generateRandomStudentIndexes(num_students)
@@ -157,11 +128,7 @@ module.exports.new = async ({
 							}
 						]
 					}
-				}
-
-				console.log('artifact evaluation query')
-				console.log(artifact_evaluation_query)
-
+				}				
 				await Evaluation.query().insert(artifact_evaluation_query)
 			}
 		}
@@ -278,8 +245,5 @@ module.exports.get = async (portfolio_id) => {
 			artifacts: raw_portfolio.outcomes[i].artifacts
 		}, raw_portfolio.outcomes[i].slo))
 	}
-
-	console.log(portfolio)
-
 	return portfolio
 }
