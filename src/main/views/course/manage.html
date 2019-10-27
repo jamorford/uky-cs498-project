@@ -57,6 +57,7 @@
 					<tr>
 						<td>{{index}}</td>
 						{{#evaluation}}
+						{{#evaluation_metrics}}
 						<td>
 							<select name="student-{{index}}-category-{{metric}}">
 								<option value="6">Exceeds</option>
@@ -67,6 +68,7 @@
 							</select>
 							<script>$('[name=student-{{index}}-category-{{metric}}]').val('{{value}}')</script>
 						</td>
+						{{/evaluation_metrics}}
 						{{/evaluation}}
 						<td>
 							<input name="student-1-submission" type="file"></input>

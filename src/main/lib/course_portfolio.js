@@ -1,6 +1,8 @@
 const Portfolio = require('../models/CoursePortfolio')
 const Course = require('../models/Course')
-const CoursePortfolioStudentLearningOutcome = require('../Models/CoursePortfolio/StudentLearningOutcome')
+const Artifact = require('../models/CoursePortfolio/Artifact')
+const CoursePortfolioStudentLearningOutcome = require('../models/CoursePortfolio/StudentLearningOutcome')
+const Evaluation = require('../models/CoursePortfolio/Artifact/Evaluation')
 
 module.exports.new = async ({
 	department_id,
@@ -12,8 +14,6 @@ module.exports.new = async ({
 	student_learning_outcomes,
 	section
 }) => {
-	// TODO
-
 	// Query info for the inputted course
 	course_query = {
 		department_id: parseInt(department_id),
@@ -26,10 +26,13 @@ module.exports.new = async ({
 		.where('department_id', department_id)
 		.where('number', course_number)
 	
-	
+	// Declare variables needed in main scope
+	let course_id = -1
+	let portfolio_id = -1
+
 	// If course doesn't exist, make a new course
 	if (course_exist.length == 0){		
-		course_result = await Course.query().insert(course_query)
+		let course_result = await Course.query().insert(course_query)
 		course_id = course_result.id
 	} else {
 		course_id = course_exist[0].id
@@ -49,25 +52,31 @@ module.exports.new = async ({
 		section: parseInt(section)
 	}
 
-	
 
+	console.log('portfolio query')
+	console.log(portfolio_query)
 
 	// Check if portfolio already exists
-	portfolio_exist = await Portfolio
+	let portfolio_exist = await Portfolio
 		.query()
 		.where('course_id', course_id)
 		.where('semester_term_id', semester)
 		.where('section', section)
 		.where('year', year)
 
+
+	console.log('portfolio exist')
+	console.log(portfolio_exist)
+
 	// If portfolio doesn't exist, make another one
 	if (portfolio_exist.length == 0) {
-		portfolio_result = await Portfolio.query().insert(portfolio_query)
+		let portfolio_result = await Portfolio.query().insert(portfolio_query)
 
-		console.log(student_learning_outcomes)
+		console.log('portfolio result')
+		console.log(portfolio_result)
 
 		// Make a query to connect the portfolio to the chosen SLO
-		portfolio_slo_query = {
+		let portfolio_slo_query = {
 			portfolio_id: parseInt(portfolio_result.id),
 			slo_id: parseInt(student_learning_outcomes[0])
 		}
@@ -75,16 +84,92 @@ module.exports.new = async ({
 		console.log('portfolio slo query')
 		console.log(portfolio_slo_query)
 
-		await CoursePortfolioStudentLearningOutcome.query().insert(portfolio_slo_query)
 
+		let portfolio_slo_result = await CoursePortfolioStudentLearningOutcome.query().insert(portfolio_slo_query)
+		
+		console.log('portfolio slo result')
+		console.log(portfolio_slo_result)
+
+		// Make an array for artifacts
+		let artifacts = []
+
+		// Make queries for creating default artifacts
+		for(let i=1; i<4; i++){
+
+			artifact_query = {
+				portfolio_slo_id: portfolio_slo_result.id,
+				index: i,
+				name: '_unset_'
+			}
+
+			console.log('artifact query')
+			console.log(artifact_query)
+
+			artifact_result = await Artifact.query().insert(artifact_query)
+			
+			console.log('artifact result')
+			console.log(artifact_result)
+
+			artifacts.push(artifact_result)
+		}
+
+		console.log('artifacts')
+		console.log(artifacts)
+
+		// Make an array for artifact ids for easy 'loopability' (idk if that's a word)
+		let artifact_ids = []
+		artifact_ids.push(artifacts[0].id)
+		artifact_ids.push(artifacts[1].id)
+		artifact_ids.push(artifacts[2].id)
+
+		console.log('artifact ids')
+		console.log(artifact_ids)
+
+		for(let i=0; i<artifact_ids.length; i++){
+			let student_indexes = generateRandomStudentIndexes(num_students)
+			for(let j=0; j<student_indexes.length; j++){
+				let artifact_evaluation_query = {
+					artifact_id: artifact_ids[i],
+					evaluation_index: j + 1,
+					student_index: student_indexes[j],
+					evaluation: {
+						index: j + 1,
+						evaluation_metrics: [
+							{
+								metric: 1,
+								value: 10 
+							},
+							{
+								metric: 2,
+								value: 10
+							}, 
+							{
+								metric: 3,
+								value: 10	
+							}, 
+							{
+								metric: 4,
+								value: 10
+							},
+							{
+								metric: 5,
+								value: 10
+							}
+						]
+					}
+				}
+
+				console.log('artifact evaluation query')
+				console.log(artifact_evaluation_query)
+
+				await Evaluation.query().insert(artifact_evaluation_query)
+			}
+		}
 		portfolio_id = portfolio_result.id
 	} else {
 		portfolio_id = portfolio_exist[0].id
 	}
 
-	console.log('portfolio id')
-	console.log(portfolio_id)
-	
 	let raw_portfolio = await Portfolio.query()
 	.eager({
 		course: {
@@ -101,9 +186,8 @@ module.exports.new = async ({
 			}
 		}
 	})
-	.findById(portfolio_result.id)
 
-	console.log(raw_portfolio)
+	.findById(portfolio_id)
 
 	let portfolio = {
 		portfolio_id: raw_portfolio.id,
@@ -126,11 +210,34 @@ module.exports.new = async ({
 		}, raw_portfolio.outcomes[i].slo))
 	}
 
-	console.log(portfolio)
-
 	return portfolio
 }
 
+function generateRandomStudentIndexes(num_students){
+	let student_indexes = []
+	let max_students = 0
+
+	if (num_students <= 10){
+		max_students = num_students
+	} else if (num_students <= 50){
+		max_students = 10
+	} else {
+		max_students = Math.ceil(num_students * 0.20)
+	}
+
+	for(let i=0; i<max_students; i++){
+		random_index = Math.floor(Math.random() * num_students + 1)
+		if (student_indexes.includes(random_index)){
+			i--
+		}
+		else {
+			student_indexes.push(random_index)
+		}
+	}
+	student_indexes = student_indexes.sort(function(a,b) { return a - b; }) // numerical sort
+
+	return student_indexes
+}
 
 module.exports.get = async (portfolio_id) => {
 	let raw_portfolio = await Portfolio.query()
