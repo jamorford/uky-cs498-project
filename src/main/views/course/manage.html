@@ -1,6 +1,12 @@
 <section id="course_manage_page" class="container">
 	{{#course}}
-	<h2>{{department}}{{number}}-{{section}} {{semester}} {{year}} Course Portfolio</h2>
+	<h2>{{department}}{{number}}-{{section}} {{semester}} {{year}} <span id="type"></span> Course Portfolio</h2>
+	<script>
+		// Visually set to 'Archived Course Portfolio' if read only
+		if ('{{portfolio_type}}' == 'view'){
+			$('#type').text('Archived')
+		} 
+	</script>
 	{{/course}}
 	<div class="container row">
 		Course Summary
@@ -43,7 +49,7 @@
 		</table>
 		{{#artifacts}}
 		<div class="container row">
-			<h3>Artifact 1: {{name}}</h3>
+			<h3>Artifact {{id}}: {{name}}</h3>
 			<form id="edit_course_form" target="_self" method="POST">
 				<table>
 					<tr>
@@ -66,18 +72,39 @@
 								<option value="9">Not</option>
 								<option value="10">Does Not Apply</option>
 							</select>
-							<script>$('[name=student-{{index}}-category-{{metric}}]').val('{{value}}')</script>
+							<script>
+								// Set dropdown to metric
+								$('[name=student-{{index}}-category-{{metric}}]').val('{{value}}')
+
+								// Disable dropdown if page is set to read only
+								if('{{portfolio_type}}' == 'view'){
+									$('[name=student-{{index}}-category-{{metric}}]').prop('disabled', true)
+								}
+							</script>
 						</td>
 						{{/evaluation_metrics}}
 						{{/evaluation}}
 						<td>
-							<input name="student-1-submission" type="file"></input>
+							<input name="student-{{student_index}}-submission" type="file"></input>						
+							<script>
+								// Disable submission if set to read only
+								if('{{portfolio_type}}' == 'view'){
+									$('[name=student-{{student_index}}-submission]').prop('disabled', true)
+								}
+							</script>
 							attach <i class="material-icons">attachment</i>
 						</td>
+
 					</tr>
 					{{/evaluations}}
 				</table>
-				<input type="submit" />
+				<input name="submit-btn-{{artifact_id}}" type="submit" />					
+				<script>
+					// Disable submission if set to read only
+					if('{{portfolio_type}}' == 'view'){
+						$('[name=submit-btn-{{artifact_id}}]').prop('disabled', true)
+					}
+				</script>
 			</form>
 		</div>
 		{{/artifacts}}

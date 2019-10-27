@@ -7,9 +7,9 @@ var router = express.Router();
 const Department = require('../models/Department')
 const TermType = require('../models/TermType')
 
-const course_manage_page = async (res, course_portfolio_id) => {
+const course_manage_page = async (res, course_portfolio_id, course_portfolio_type) => {
 
-	let course_info = await course_portfolio_lib.get(course_portfolio_id)
+	let course_info = await course_portfolio_lib.get(course_portfolio_id, course_portfolio_type)
 
 	res.render('base_template', {
 		title: 'CS498 Course Portfolio',
@@ -49,17 +49,16 @@ router.route('/')
 		})
 	}))
 
-/* GET course page */
-router.route('/:id')
+router.route('/:type')
 	.get(html.auth_wrapper(async (req, res, next) => {
-		if (req.params.id === 'new') {
+		if (req.params.type === 'new') {
 			await course_new_page(res)
 		} else {
-			await course_manage_page(res, req.params.id)
+			res.redirect(302, `/course`)
 		}
 	}))
 	.post(html.auth_wrapper(async (req, res, next) => {
-		if (req.params.id === 'new') {
+		if (req.params.type === 'new') {
 			if (req.body.course_submit) {
 				const course_portfolio = await course_portfolio_lib.new({
 					department_id: req.body.department,
@@ -74,12 +73,34 @@ router.route('/:id')
 					section: req.body.course_section
 				})
 
-				res.redirect(302, `/course/${course_portfolio.portfolio_id}`)
+				res.redirect(302, `/course/edit/${course_portfolio.portfolio_id}`)
 			} else {
 				await course_new_page(res, req.body.department)
 			}
+		}
+		else {
+			res.redirect(302, `/course`)
+		}
+	}))
+
+/* GET course page */
+router.route('/:type/:id')
+	// On edit/id, load course portfolio with id
+	.get(html.auth_wrapper(async (req, res, next) => {
+		if (req.params.type == 'edit'){			
+			await course_manage_page(res, req.params.id, req.params.type)
+		} else if (req.params.type == 'view'){			
+			await course_manage_page(res, req.params.id, req.params.type)
 		} else {
-			await course_manage_page(res, 499)
+			res.redirect(302, `/course`)
+		}
+	}))
+	.post(html.auth_wrapper(async (req, res, next) => {
+		// TO DO - Need to add logic to save submissions
+		if (req.params.type == 'edit'){
+			await course_manage_page(res, req.params.id)
+		} else {
+			res.redirect(302, `/course`)
 		}
 	}))
 

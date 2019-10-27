@@ -158,6 +158,7 @@ module.exports.new = async ({
 
 	let portfolio = {
 		portfolio_id: raw_portfolio.id,
+		portfolio_type: 'edit',
 		course_id: raw_portfolio.course_id,
 		instructor: raw_portfolio.instructor,
 		num_students: raw_portfolio.num_students,
@@ -206,7 +207,7 @@ function generateRandomStudentIndexes(num_students){
 	return student_indexes
 }
 
-module.exports.get = async (portfolio_id) => {
+module.exports.get = async (portfolio_id, portfolio_type) => {
 	let raw_portfolio = await Portfolio.query()
 		.eager({
 			course: {
@@ -227,6 +228,7 @@ module.exports.get = async (portfolio_id) => {
 
 	let portfolio = {
 		portfolio_id: raw_portfolio.id,
+		portfolio_type: portfolio_type,
 		course_id: raw_portfolio.course_id,
 		instructor: raw_portfolio.instructor,
 		num_students: raw_portfolio.num_students,
