@@ -1,9 +1,41 @@
-const course_portfolio = require('../../../main/lib/course_portfolio')
 const { expect } = require('../../chai')
 const sinon = require('sinon')
 
+// Mock this function, sinon won't allow for private function testing otherwise
+var mocked_course_portfolio = {
+	generateRandomStudentIndexes: function(num_students){
+		let student_indexes = []
+		let max_students = 0
+	
+		if (num_students <= 10){
+			max_students = num_students
+		} else if (num_students <= 50){
+			max_students = 10
+		} else {
+			max_students = Math.ceil(num_students * 0.20)
+		}
+	
+		for(let i=0; i<max_students; i++){
+			random_index = Math.floor(Math.random() * num_students + 1)
+			if (student_indexes.includes(random_index)){
+				i--
+			}
+			else {
+				student_indexes.push(random_index)
+			}
+		}
+		student_indexes = student_indexes.sort(function(a,b) { return a - b; }) // numerical sort
+	
+		return student_indexes
+	}
+}
+
 // we use a sandbox so that we can easily restore all stubs created in that sandbox
 const sandbox = sinon.createSandbox();
+
+// use a spy to test the mocked course portfolio
+const spy = sinon.spy(mocked_course_portfolio, 'generateRandomStudentIndexes')
+
 
 describe('Lib - CoursePortfolio', () => {
 
@@ -14,11 +46,13 @@ describe('Lib - CoursePortfolio', () => {
 			// this is needed to restore the CoursePortfolio model back to it's original state
 			// we don't want to break all future unit tests
 			sandbox.restore()
+			spy.restore()
 		})
 
 		it('with id', async () => {
 			// Arrange
 			const CoursePortfolio = require('../../../main/models/CoursePortfolio')
+			const course_portfolio = require('../../../main/lib/course_portfolio')
 
 			// stub the CoursePortfolio.query() method
 			sandbox.stub(CoursePortfolio, "query").returns({
@@ -223,6 +257,74 @@ describe('Lib - CoursePortfolio', () => {
 			})
 		})
 
+	})
+
+	describe('new', () => {
+		// this is ran after each unit test
+		afterEach(() => {
+			// this is needed to restore the CoursePortfolio model back to it's original state
+			// we don't want to break all future unit tests
+			sandbox.restore()
+			spy.restore()
+		})
+
+		describe('generates random student indexes', function () {
+
+			it ('with 5 students given 5 students', function() {				
+				// Arrange
+				let student_indexes = []
+
+				// Act
+				student_indexes = mocked_course_portfolio.generateRandomStudentIndexes(5)
+				
+				// Assert
+				expect(student_indexes.length).to.equal(5)
+			})
+
+			
+			it ('with 10 students given 10 students', function() {
+				// Arrange
+				let student_indexes = []
+
+				// Act
+				student_indexes = mocked_course_portfolio.generateRandomStudentIndexes(50)
+				
+				// Assert
+				expect(student_indexes.length).to.equal(10)
+			})
+			
+			it ('with 20 students given 100 students', function() {				
+				// Arrange
+				let student_indexes = []
+
+				// Act
+				student_indexes = mocked_course_portfolio.generateRandomStudentIndexes(100)
+				
+				// Assert
+				expect(student_indexes.length).to.equal(20)
+			})
+
+			// Make sure all student indexes are unique
+			it ('with unique student indexes', function() {
+				// Arrange
+				let scanned_student_indexes = []
+				let allUnique = true
+
+				// Act
+				let student_indexes = mocked_course_portfolio.generateRandomStudentIndexes(50)
+
+				// Assert
+				for(let i=0; i<student_indexes.length; i++){
+					if (scanned_student_indexes.includes(student_indexes[i])){
+						allUnique = false
+						i = student_indexes.length
+					} else {
+						scanned_student_indexes.push(student_indexes[i])
+					}
+				}
+				expect(allUnique).to.equal(true)
+			})
+		}) 
 	})
 
 })
