@@ -97,3 +97,87 @@ Then run `npm run setup_db`. This will run all database migrations and seed both
 ### to run scratch file
 
 `npm run scratch`
+
+Changes are now stable to my knowledge.
+
+## Detailed step by step set-up (by David Stilz):
+
+### DOWNLOADING
+- Download Visual Studio Code: https://code.visualstudio.com/download
+- Download PostgreSQL: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+- When downloading PostgreSQL, make sure to set up a password you will easily remember (it will be used later)
+- Download Github Desktop: https://desktop.github.com/
+
+### DATABASE SETUP
+- Open pgAdmin 4 which should be downloaded alongside the PostgreSQL download suite
+- Log in to pgAdmin 4
+- Navigate to Servers > PostgreSQL > Databases
+- Right click databases and click Create > Database
+- Create a database named 'abet_system_dev'
+- Repeat Steps 7-8 and create a database named 'abet_system_test'
+
+### GIT SETUP
+- Star the main repository on Github.com (click the star button): https://github.com/jonathanamorford/cs498-project
+- Open and log in to the desktop Github Desktop application
+- Click File > Clone Repository > Click jonathanamorford/cs498-project > Click Clone > Choose a directory you will remember
+
+### DEVELOPMENT ENVIRONMENT SETUP
+- Open Visual Studio Code
+- Click File > Open Folder > Documents/cs498-project (directory of repo, depends on where it is)
+- Click Terminal > New Terminal > Execute 'npm install' command into terminal
+- On far left, make sure 'Explorer' tab button is clicked (first and highest button)
+
+### DATABASE INTEGRATION SETUP
+- Select knexfile.js in the root directory from the explorer tab, manipulate code lines to look like this (USER will be 'postgres' and PASSWORD will be the password that you personally set when setting PostgreSQL up):
+
+```
+const common = {
+	client: 'postgresql',
+	migrations: {
+		directory: './src/main/migrations'
+	},
+	pool: {
+		min: 2,
+		max: 10
+	}
+}
+
+module.exports = {
+  development: Object.assign({
+    connection: {
+      database: 'abet_system_dev',
+      user: 'postgres',
+      password: 'password'
+    },
+    seeds: {
+      directory: './src/dev/seeds'
+    }
+	}, common),
+
+  test: Object.assign({
+    connection: {
+      database: 'abet_system_test',
+      user: 'postgres',
+      password: 'password'
+    },
+    seeds: {
+      directory: './src/test/seeds'
+    }
+  }, common),
+
+  production: Object.assign({
+    connection: {
+      database: 'abet_system'
+    }
+  }, common)
+};
+```
+- In Visual Studio Code, navigate to explorer tab > NPM Scripts
+- Run setup_db (sets up database)
+
+### RUN SERVER
+- Run start (starts server)
+
+### OPENING WEB PAGE
+- In a web browser, go to localhost:3000 to hit the login page
+- Authentication for log in page is 'user': user, 'password': password
