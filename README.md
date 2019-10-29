@@ -107,6 +107,7 @@ Changes are now stable to my knowledge.
 - Download PostgreSQL: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 - When downloading PostgreSQL, make sure to set up a password you will easily remember (it will be used later)
 - Download Github Desktop: https://desktop.github.com/
+- Install npm: https://nodejs.org/en/download/ 
 
 ### DATABASE SETUP
 - Open pgAdmin 4 which should be downloaded alongside the PostgreSQL download suite
