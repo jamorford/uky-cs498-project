@@ -11,6 +11,7 @@
 		"migrate:test": "node ./node_modules/knex/bin/cli.js --env test migrate:latest",
 		"seed": "node ./node_modules/knex/bin/cli.js seed:run",
 		"seed:test": "node ./node_modules/knex/bin/cli.js --env test seed:run",
+		"run_db": "docker build db/. -t abet-database && docker run -d --rm -p 5432:5432 abet-database",
 		"setup_db": "npm run migrate && npm run migrate:test && npm run seed && npm run seed:test",
 		"test": "NODE_ENV=test node ./node_modules/mocha/bin/mocha \"src/test/cases/**/*.js\""
 	},
