@@ -6,12 +6,12 @@ describe('Controller - Course', () => {
 
     it('insert', async () => {
         // Arrange
-        let department_id = '101'
-        let course_number = '1'
+        let department_id = '1'
+        let course_number = '101'
         let TestCourseController = new CourseController(department_id, course_number)
         let expected_course = {
-            department_id: 101,
-            course_number: 1
+            department_id: 1,
+            course_number: 101
         }
 
         // Act
@@ -24,12 +24,12 @@ describe('Controller - Course', () => {
 
     it('get', async () => {
         // Arrange
-        let department_id = '101'
-        let course_number = '1'
+        let department_id = '1'
+        let course_number = '101'
         let TestCourseController = new CourseController(department_id, course_number)
         let expected_course = {
-            department_id: 101,
-            course_number: 1
+            department_id: 1,
+            course_number: 101
         }
 
         // Act
