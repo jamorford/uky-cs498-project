@@ -24,7 +24,6 @@ describe('Controller - Course', () => {
             department_id: parseInt(department_id),
             number: parseInt(course_number)
         }
-
         // Act
         let payload = await TestCourseController.generateCoursePayload(department_id, course_number)
 
@@ -35,6 +34,7 @@ describe('Controller - Course', () => {
     it('gets by attributes', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
         let course_expected = {
@@ -52,8 +52,6 @@ describe('Controller - Course', () => {
                 })
             })
         })
-
-        let TestCourseController = new CourseController()
         
         // Act
         let course_retrieved = await TestCourseController.getByAttributes(department_id, course_number)
@@ -65,6 +63,7 @@ describe('Controller - Course', () => {
     it('gets by id', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let id = 1
         let department_id = '1'
         let course_number = '101'
@@ -81,8 +80,6 @@ describe('Controller - Course', () => {
                 course_number: parseInt(course_number)
             })
         })
-
-        let TestCourseController = new CourseController()
         
         // Act
         let course_retrieved = await TestCourseController.getById(id)
@@ -93,8 +90,8 @@ describe('Controller - Course', () => {
 
     it('inserts', async () => {
         // Arrange
-        const CourseController = require('../../../main/controllers/CourseController')
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
         course_expected = {
@@ -110,8 +107,6 @@ describe('Controller - Course', () => {
                 course_number: parseInt(course_number)
             })
         })
-
-        let TestCourseController = new CourseController()
         
         // Act
         let course_inserted = await TestCourseController.insert()
@@ -123,6 +118,7 @@ describe('Controller - Course', () => {
     it('updates by id', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let department_id = '2'
         let course_number = '202'
         let course_expected = {
@@ -138,8 +134,6 @@ describe('Controller - Course', () => {
                 course_number: parseInt(course_number)
             })
         })
-
-        let TestCourseController = new CourseController(department_id, course_number)
         
         // Act
         let course_retrieved = await TestCourseController.updateById()
@@ -151,6 +145,7 @@ describe('Controller - Course', () => {
     it('delete by attributes', async () => {        
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
         sandbox.stub(Course, "query").returns({
@@ -160,9 +155,7 @@ describe('Controller - Course', () => {
                 })
             })
         })
-
-        let TestCourseController = new CourseController()
-
+        
         // Act
         let courseDeleted = await TestCourseController.deleteByAttributes(department_id, course_number)
 
@@ -173,6 +166,7 @@ describe('Controller - Course', () => {
     it('delete returns false if invalid attributes', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let department_id = '-1'
         let course_number = '-1'
         sandbox.stub(Course, "query").returns({
@@ -182,8 +176,6 @@ describe('Controller - Course', () => {
                 })
             })
         })
-
-        let TestCourseController = new CourseController()
 
         // Act
         let courseDeleted = await TestCourseController.deleteByAttributes(department_id, course_number)
@@ -195,12 +187,11 @@ describe('Controller - Course', () => {
     it('delete by id', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let id = 1
         sandbox.stub(Course, "query").returns({
             deleteById: sandbox.stub().returns(1)
         })
-
-        let TestCourseController = new CourseController()
 
         // Act
         let courseDeleted = await TestCourseController.deleteById(id)
@@ -212,12 +203,11 @@ describe('Controller - Course', () => {
     it('delete returns false if invalid id', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
+        let TestCourseController = new CourseController()
         let id = 404
         sandbox.stub(Course, "query").returns({
             deleteById: sandbox.stub().returns(0)
         })
-
-        let TestCourseController = new CourseController()
 
         // Act
         let courseDeleted = await TestCourseController.deleteById(id)
