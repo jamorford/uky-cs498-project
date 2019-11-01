@@ -37,10 +37,13 @@ class CourseController {
 
     // Delete a course
     async delete() {
-        course_exist = await this.get()
+        let course_exist = await this.get()
+        console.log(course_exist)
         if (course_exist != []){
-            Course.query()
+            return Course.query()
             .deleteById(course_exist[0].id)
+        } else {
+            return course_exist
         }
     }
 }
