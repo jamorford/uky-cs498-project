@@ -60,4 +60,4 @@ class PortfolioSLOController {
     }
 }
 
-module.exports = PortfolioSLO
+module.exports = PortfolioSLOController
