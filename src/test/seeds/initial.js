@@ -14,262 +14,259 @@ exports.seed = knex => Promise.resolve((async () => {
 
 
 	/* USER SECTION */
-	user_id = await knex('users')
-	.returning('id')
-	.insert([
+	await knex('users').insert([
 		{
+			id: 1,
 			linkblue_username: `user`
 		}
 	])
-	user_id = user_id[0]
-
 	/* DEPARTMENT SECTION */
-	department_id = await knex('department')
-	.returning('id')
-	.insert([
+	await knex('department').insert([
 		{
+			id: 1,
 			identifier: `cs`,
 			name: `Computer Science`
 		}
 	])
-	department_id = department_id[0]
-
 	/* TERM SECTION */
-	term_type_ids = await knex('term_type')
-	.returning('id')
-	.insert([
+	await knex('term_type').insert([
 		{
+			id: 1,
 			type: `semester`
 		},
 		{
+			id: 2,
 			type: `evaluation_option`
 		}
 	])
-	term_type_id_1 = term_type_ids[0]
-	term_type_id_2 = term_type_ids[1]
-
-
-	term_id = await knex('term')
-	.returning('id')
-	.insert([
+	await knex('term').insert([
 		{
-			type: term_type_id_1,
+			id: 1,
+			type: 1,
 			value: `fall`
 		},
 		{
-			type: term_type_id_1,
+			id: 2,
+			type: 1,
 			value: `spring`
 		},
 		{
-			type: term_type_id_1,
+			id: 3,
+			type: 1,
 			value: `summer 1`
 		},
 		{
-			type: term_type_id_1,
+			id: 4,
+			type: 1,
 			value: `summer 2`
 		},
 		{
-			type: term_type_id_1,
+			id: 5,
+			type: 1,
 			value: `winter`
 		},
 		{
-			type: term_type_id_2,
+			id: 6,
+			type: 2,
 			value: `does not apply`
 		},
 		{
-			type: term_type_id_2,
+			id: 7,
+			type: 2,
 			value: `exceeds`
 		},
 		{
-			type: term_type_id_2,
+			id: 8,
+			type: 2,
 			value: `meets`
 		},
 		{
-			type: term_type_id_2,
+			id: 9,
+			type: 2,
 			value: `partially`
 		},
 		{
-			type: term_type_id_2,
+			id: 10,
+			type: 2,
 			value: `not`
 		}
 	])
-	term_id_1 = term_id[0]
-
 	/* SLO SECTION */
-	slo_id = await knex('slo')
-	.returning('id')
-	.insert([
+	await knex('slo').insert([
 		{
-			department_id: department_id,
+			id: 1,
+			department_id: 1,
 			index: 2,
 			description: `Design, implement, and evaluate a computing-based solution to meet a given set of computing requirements in the context of the program's discipline.`
 		}
 	])
-	slo_id = slo_id[0]
-
-	await knex('slo_metric')
-	.returning('id')
-	.insert([
+	await knex('slo_metric').insert([
 		{
-			slo_id: slo_id,
+			id: 1,
+			slo_id: 1,
 			index: 1,
 			name: `Identify and interpret client needs and design constraints`
 		},
 		{
-			slo_id: slo_id,
+			id: 2,
+			slo_id: 1,
 			index: 2,
 			name: `Establish design evaluation metrics and procedures`
 		},
 		{
-			slo_id: slo_id,
+			id: 3,
+			slo_id: 1,
 			index: 3,
 			name: `Develop a design whose product could reasonably meet design needs`
 		},
 		{
-			slo_id: slo_id,
+			id: 4,
+			slo_id: 1,
 			index: 4,
 			name: `Articulate a proposed design and rationally support design decisions`
 		},
 		{
-			slo_id: slo_id,
+			id: 5,
+			slo_id: 1,
 			index: 5,
 			name: `Identify and interpret client needs and design constraints`
 		}
 	])
-
 	/* COURSE SECTION */
-	course_id = await knex('course')
-	.returning('id')
-	.insert([
+	await knex('course').insert([
 		{
-			department_id: department_id,
+			id: 1,
+			department_id: 1,
 			number: 498
 		}
 	])
-	course_id = course_id[0]
-
 	/* COURSE PORTFOLIO SECTION */
-	portfolio_id = await knex('portfolio')
-	.returning('id')
-	.insert([
+	await knex('portfolio').insert([
 		{
-			course_id: course_id,
-			instructor_id: user_id,
-			semester_term_id: term_id_1,
+			id: 1,
+			course_id: 1,
+			instructor_id: 1,
+			semester_term_id: 1,
 			num_students: 5,
 			section: 1,
 			year: 2019
 		}
 	])
-	portfolio_id = portfolio_id[0]
-
-	portfolio_slo_id = await knex('portfolio_slo')
-	.returning('id')
-	.insert([
+	await knex('portfolio_slo').insert([
 		{
-			portfolio_id: portfolio_id,
-			slo_id: slo_id
+			id: 1,
+			portfolio_id: 1,
+			slo_id: 1
 		}
 	])
-	portfolio_slo_id = portfolio_slo_id[0]
-
-	artifact_ids = await knex('artifact')
-	.returning('id')
-	.insert([
+	await knex('artifact').insert([
 		{
-			portfolio_slo_id: portfolio_slo_id,
+			id: 1,
+			portfolio_slo_id: 1,
 			index: 1
 		},
 		{
-			portfolio_slo_id: portfolio_slo_id,
+			id: 2,
+			portfolio_slo_id: 1,
 			index: 2
 		},
 		{
-			portfolio_slo_id: portfolio_slo_id,
+			id: 3,
+			portfolio_slo_id: 1,
 			index: 3
 		},
 	])
-
-	artifact_id_1 = artifact_ids[0]
-	artifact_id_2 = artifact_ids[1]
-	artifact_id_3 = artifact_ids[2]
-
 	await knex('artifact_evaluation').insert([
 		/* ARTIFACT 1 */
 		{
-			artifact_id: artifact_id_1,
+			id: 1,
+			artifact_id: 1,
 			evaluation_index: 1,
 			student_index: 1
 		},
 		{
-			artifact_id: artifact_id_1,
+			id: 2,
+			artifact_id: 1,
 			evaluation_index: 2,
 			student_index: 2
 		},
 		{
-			artifact_id: artifact_id_1,
+			id: 3,
+			artifact_id: 1,
 			evaluation_index: 3,
 			student_index: 3
 		},
 		{
-			artifact_id: artifact_id_1,
+			id: 4,
+			artifact_id: 1,
 			evaluation_index: 4,
 			student_index: 4
 		},
 		{
-			artifact_id: artifact_id_1,
+			id: 5,
+			artifact_id: 1,
 			evaluation_index: 5,
 			student_index: 5
 		},
 		/* ARTIFACT 2 */
 		{
-			artifact_id: artifact_id_2,
+			id: 6,
+			artifact_id: 2,
 			evaluation_index: 1,
 			student_index: 1
 		},
 		{
-			artifact_id: artifact_id_2,
+			id: 7,
+			artifact_id: 2,
 			evaluation_index: 2,
 			student_index: 2
 		},
 		{
-			artifact_id: artifact_id_2,
+			id: 8,
+			artifact_id: 2,
 			evaluation_index: 3,
 			student_index: 3
 		},
 		{
-			artifact_id: artifact_id_2,
+			id: 9,
+			artifact_id: 2,
 			evaluation_index: 4,
 			student_index: 4
 		},
 		{
-			artifact_id: artifact_id_2,
+			id: 10,
+			artifact_id: 2,
 			evaluation_index: 5,
 			student_index: 5
 		},
 		/* ARTIFACT 3 */
 		{
-			artifact_id: artifact_id_3,
+			id: 11,
+			artifact_id: 3,
 			evaluation_index: 1,
 			student_index: 1
 		},
 		{
-			artifact_id: artifact_id_3,
+			id: 12,
+			artifact_id: 3,
 			evaluation_index: 2,
 			student_index: 2
 		},
 		{
-			artifact_id: artifact_id_3,
+			id: 13,
+			artifact_id: 3,
 			evaluation_index: 3,
 			student_index: 3
 		},
 		{
-			artifact_id: artifact_id_3,
+			id: 14,
+			artifact_id: 3,
 			evaluation_index: 4,
 			student_index: 4
 		},
 		{
-			artifact_id: artifact_id_3,
+			id: 15,
+			artifact_id: 3,
 			evaluation_index: 5,
 			student_index: 5
 		}
