@@ -132,12 +132,10 @@ describe('Controller - Course', () => {
         }
 
         sandbox.stub(Course, "query").returns({
-            findById: sandbox.stub().returns({
-                patch: sandbox.stub().returns({
-                    id: 2,
-                    department_id: parseInt(department_id),
-                    course_number: parseInt(course_number)
-                })
+            patchAndFetchById: sandbox.stub().returns({
+                id: 2,
+                department_id: parseInt(department_id),
+                course_number: parseInt(course_number)
             })
         })
 
@@ -172,7 +170,7 @@ describe('Controller - Course', () => {
         expect(courseDeleted).to.equal(true)
     })
 
-    it('doesn\'t delete if invalid attributes', async () => {
+    it('delete returns false if invalid attributes', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
         let department_id = '-1'
@@ -211,7 +209,7 @@ describe('Controller - Course', () => {
         expect(courseDeleted).to.equal(true)
     })
 
-    it('doesn\'t delete if invalid id', async () => {
+    it('delete returns false if invalid id', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
         let id = 404

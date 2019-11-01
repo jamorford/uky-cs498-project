@@ -35,8 +35,7 @@ class CourseController {
     async updateById(id, department_id, course_number) {
         return await Course
             .query()
-            .findById(id)
-            .patch(this.generateCoursePayload(department_id, course_number))
+            .patchAndFetchById(id, this.generateCoursePayload(department_id, course_number))
     }    
 
     // Delete a course
