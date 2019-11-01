@@ -6,6 +6,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Controller - Course', () => {
     const CourseController = require('../../../main/controllers/CourseController')
+    const Course = require('../../../main/models/Course')
 
     // this is ran after each unit test
     afterEach(() => {
@@ -16,7 +17,6 @@ describe('Controller - Course', () => {
 
     it('generates a payload', async () => {
         // Arrange
-        const CourseController = require('../../../main/controllers/CourseController')
         const TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
@@ -33,7 +33,6 @@ describe('Controller - Course', () => {
 
     it('gets by attributes', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
@@ -62,7 +61,6 @@ describe('Controller - Course', () => {
 
     it('gets by id', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let id = 1
         let department_id = '1'
@@ -90,7 +88,6 @@ describe('Controller - Course', () => {
 
     it('inserts', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
@@ -109,7 +106,7 @@ describe('Controller - Course', () => {
         })
         
         // Act
-        let course_inserted = await TestCourseController.insert()
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
         expect(course_inserted).to.deep.equal(course_expected)
@@ -117,26 +114,26 @@ describe('Controller - Course', () => {
 
     it('updates by id', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
+        let id = 1
         let department_id = '2'
         let course_number = '202'
         let course_expected = {
-            id: 2,
+            id: id,
             department_id: parseInt(department_id),
             course_number: parseInt(course_number)
         }
 
         sandbox.stub(Course, "query").returns({
             patchAndFetchById: sandbox.stub().returns({
-                id: 2,
+                id: id,
                 department_id: parseInt(department_id),
                 course_number: parseInt(course_number)
             })
         })
         
         // Act
-        let course_retrieved = await TestCourseController.updateById()
+        let course_retrieved = await TestCourseController.updateById(id)
 
         // Assert
         expect(course_retrieved).to.deep.equal(course_expected)  
@@ -144,7 +141,6 @@ describe('Controller - Course', () => {
 
     it('delete by attributes', async () => {        
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
@@ -165,7 +161,6 @@ describe('Controller - Course', () => {
 
     it('delete returns false if invalid attributes', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let department_id = '-1'
         let course_number = '-1'
@@ -186,7 +181,6 @@ describe('Controller - Course', () => {
 
     it('delete by id', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let id = 1
         sandbox.stub(Course, "query").returns({
@@ -202,7 +196,6 @@ describe('Controller - Course', () => {
 
     it('delete returns false if invalid id', async () => {
         // Arrange
-        const Course = require('../../../main/models/Course')
         let TestCourseController = new CourseController()
         let id = 404
         sandbox.stub(Course, "query").returns({
