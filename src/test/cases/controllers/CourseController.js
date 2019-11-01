@@ -14,57 +14,25 @@ describe('Controller - Course', () => {
         sandbox.restore()
     })
 
-    it('constructor', () => {
+    it('generates a payload', async () => {
         // Arrange
         const CourseController = require('../../../main/controllers/CourseController')
-        department_id = '1'
-        course_number = '101'
-        expected_department_id = 1
-        expected_course_number = 101
-        expected_course_query = {
-            department_id: parseInt(department_id),
-            number: parseInt(course_number)
-        } 
-
-        // Act
-        let TestCourseController = new CourseController(department_id, course_number)
-        
-        // Assert
-        expect(TestCourseController.course_query).to.deep.equal(expected_course_query)
-        expect(TestCourseController.department_id).to.equal(expected_department_id)
-        expect(TestCourseController.course_number).to.equal(expected_course_number)
-    })
-
-    it('insert', async () => {
-        // Arrange
-        const CourseController = require('../../../main/controllers/CourseController')
-        const Course = require('../../../main/models/Course')
+        const TestCourseController = new CourseController()
         let department_id = '1'
         let course_number = '101'
-        course_expected = {
-            id: 1,
+        expected_payload = {
             department_id: parseInt(department_id),
-            course_number: parseInt(course_number)
-        }        
+            number: parseInt(course_number)
+        }
 
-        sandbox.stub(Course, "query").returns({
-            insert: sandbox.stub().returns({
-                id: 1,
-                department_id: parseInt(department_id),
-                course_number: parseInt(course_number)
-            })
-        })
-
-        let TestCourseController = new CourseController(department_id, course_number)
-        
         // Act
-        let course_inserted = await TestCourseController.insert()
+        let payload = await TestCourseController.generateCoursePayload(department_id, course_number)
 
         // Assert
-        expect(course_inserted).to.deep.equal(course_expected)
+        expect(payload).to.deep.equal(expected_payload)  
     })
 
-    it('get', async () => {
+    it('gets by attributes', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
         let department_id = '1'
@@ -85,16 +53,74 @@ describe('Controller - Course', () => {
             })
         })
 
-        let TestCourseController = new CourseController(department_id, course_number)
+        let TestCourseController = new CourseController()
         
         // Act
-        let course_retrieved = await TestCourseController.get()
+        let course_retrieved = await TestCourseController.getByAttributes(department_id, course_number)
 
         // Assert
         expect(course_retrieved).to.deep.equal(course_expected)  
     })
-    
-    it('update', async () => {
+
+    it('gets by id', async () => {
+        // Arrange
+        const Course = require('../../../main/models/Course')
+        let id = 1
+        let department_id = '1'
+        let course_number = '101'
+        let course_expected = {
+            id: id,
+            department_id: parseInt(department_id),
+            course_number: parseInt(course_number)
+        }
+
+        sandbox.stub(Course, "query").returns({
+            findById: sandbox.stub().returns({
+                id: id,
+                department_id: parseInt(department_id),
+                course_number: parseInt(course_number)
+            })
+        })
+
+        let TestCourseController = new CourseController()
+        
+        // Act
+        let course_retrieved = await TestCourseController.getById(id)
+
+        // Assert
+        expect(course_retrieved).to.deep.equal(course_expected) 
+    })
+
+    it('inserts', async () => {
+        // Arrange
+        const CourseController = require('../../../main/controllers/CourseController')
+        const Course = require('../../../main/models/Course')
+        let department_id = '1'
+        let course_number = '101'
+        course_expected = {
+            id: 1,
+            department_id: parseInt(department_id),
+            course_number: parseInt(course_number)
+        }        
+
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: parseInt(department_id),
+                course_number: parseInt(course_number)
+            })
+        })
+
+        let TestCourseController = new CourseController()
+        
+        // Act
+        let course_inserted = await TestCourseController.insert()
+
+        // Assert
+        expect(course_inserted).to.deep.equal(course_expected)
+    })
+
+    it('updates by id', async () => {
         // Arrange
         const Course = require('../../../main/models/Course')
         let department_id = '2'
@@ -106,39 +132,100 @@ describe('Controller - Course', () => {
         }
 
         sandbox.stub(Course, "query").returns({
-            patch: sandbox.stub().returns({
-                id: 2,
-                department_id: parseInt(department_id),
-                course_number: parseInt(course_number)
+            findById: sandbox.stub().returns({
+                patch: sandbox.stub().returns({
+                    id: 2,
+                    department_id: parseInt(department_id),
+                    course_number: parseInt(course_number)
+                })
             })
         })
 
         let TestCourseController = new CourseController(department_id, course_number)
         
         // Act
-        let course_retrieved = await TestCourseController.update()
+        let course_retrieved = await TestCourseController.updateById()
 
         // Assert
         expect(course_retrieved).to.deep.equal(course_expected)  
     })
-    
-    it('don\'t delete if empty', async () => {        
+
+    it('delete by attributes', async () => {        
         // Arrange
         const Course = require('../../../main/models/Course')
-        let invalid_department_id = '404'
-        let invalid_course_number = '404'
+        let department_id = '1'
+        let course_number = '101'
         sandbox.stub(Course, "query").returns({
-            where: sandbox.stub().returns({
-                where: sandbox.stub().returns([])
+            delete: sandbox.stub().returns({
+                where: sandbox.stub().returns({
+                    where: sandbox.stub().returns(1)
+                })
             })
         })
 
-        let TestCourseController = new CourseController(invalid_department_id, invalid_course_number)
+        let TestCourseController = new CourseController()
 
         // Act
-        let course_retrieved = await TestCourseController.delete()
+        let courseDeleted = await TestCourseController.deleteByAttributes(department_id, course_number)
 
         // Assert
-        expect(course_retrieved).to.deep.equal([])  
+        expect(courseDeleted).to.equal(true)
+    })
+
+    it('doesn\'t delete if invalid attributes', async () => {
+        // Arrange
+        const Course = require('../../../main/models/Course')
+        let department_id = '-1'
+        let course_number = '-1'
+        sandbox.stub(Course, "query").returns({
+            delete: sandbox.stub().returns({
+                where: sandbox.stub().returns({
+                    where: sandbox.stub().returns(0)
+                })
+            })
+        })
+
+        let TestCourseController = new CourseController()
+
+        // Act
+        let courseDeleted = await TestCourseController.deleteByAttributes(department_id, course_number)
+
+        // Assert
+        expect(courseDeleted).to.equal(false)
+    })
+
+    it('delete by id', async () => {
+        // Arrange
+        const Course = require('../../../main/models/Course')
+        let id = 1
+        sandbox.stub(Course, "query").returns({
+            deleteById: sandbox.stub().returns(1)
+        })
+
+        let TestCourseController = new CourseController()
+
+        // Act
+        let courseDeleted = await TestCourseController.deleteById(id)
+
+        // Assert
+        expect(courseDeleted).to.equal(true)
+    })
+
+    it('doesn\'t delete if invalid id', async () => {
+        // Arrange
+        const Course = require('../../../main/models/Course')
+        let id = 404
+        sandbox.stub(Course, "query").returns({
+            deleteById: sandbox.stub().returns(0)
+        })
+
+        let TestCourseController = new CourseController()
+
+        // Act
+        let courseDeleted = await TestCourseController.deleteById(id)
+
+        // Assert
+        expect(courseDeleted).to.equal(false)
+
     })
 })

@@ -1,50 +1,63 @@
 const Course = require('../models/Course')
 
-class CourseController {
-    constructor(department_id, course_number) {
-        // Attributes
-        this.department_id = parseInt(department_id)
-        this.course_number = parseInt(course_number)
-        
-        // Query for given attributes
-        this.course_query = {
-            department_id: this.department_id,
-            number: this.course_number
+class CourseController {    
+
+    // Generate query payload
+    generateCoursePayload(department_id, course_number) {
+        return {
+            department_id: parseInt(department_id),
+            number: parseInt(course_number)
         }
     }
 
     // Get a course
-    async get() {    
-        return Course
+    async getByAttributes(department_id, course_number) {    
+        return await Course
             .query()
-            .where('department_id', this.department_id)
-            .where('number', this.course_number)
+            .where('department_id', parseInt(department_id))
+            .where('number', parseInt(course_number))
+    }
+
+    async getById(id) {
+        return await Course
+            .query()
+            .findById(id)
     }
 
     // Insert a course
-    async insert() {     
-        return Course
+    async insert(department_id, course_number) {     
+        return await Course
             .query()
-            .insert(this.course_query)
+            .insert(this.generateCoursePayload(department_id, course_number))
     }    
 
     // Update a course
-    async update() {     
-        return Course
+    async updateById(id, department_id, course_number) {
+        return await Course
             .query()
-            .patch(this.course_query)
+            .findById(id)
+            .patch(this.generateCoursePayload(department_id, course_number))
     }    
 
     // Delete a course
-    async delete() {
-        let course_exist = await this.get()
-        console.log(course_exist)
-        if (course_exist != []){
-            return Course.query()
-            .deleteById(course_exist[0].id)
-        } else {
-            return course_exist
-        }
+    async deleteByAttributes(department_id, course_number) {
+        const numDeleted = await Course
+            .query()
+            .delete()
+            .where('department_id', parseInt(department_id))
+            .where('number', parseInt(course_number))
+        
+        // Return true if a course is successfully deleted
+        return numDeleted > 0
+    }
+
+    async deleteById(id) {
+        const numDeleted = await Course
+            .query()
+            .deleteById(id)
+
+        // Return true if a course is successfully deleted
+        return numDeleted > 0
     }
 }
 
