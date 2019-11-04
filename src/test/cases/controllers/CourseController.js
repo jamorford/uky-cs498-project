@@ -38,16 +38,16 @@ describe('Controller - Course', () => {
         let course_number = '101'
         let course_expected = {
             id: 1,
-            department_id: department_id,
-            course_number: course_number
+            department_id: 1,
+            course_number: 101
         }
 
         sandbox.stub(Course, "query").returns({
             where: sandbox.stub().returns({
                 where: sandbox.stub().returns({
                     id: 1,
-                    department_id: department_id,
-                    course_number: course_number
+                    department_id: 1,
+                    course_number: 101
                 })
             })
         })
@@ -67,15 +67,15 @@ describe('Controller - Course', () => {
         let course_number = '101'
         let course_expected = {
             id: id,
-            department_id: department_id,
-            course_number: course_number
+            department_id: 1,
+            course_number: 101
         }
 
         sandbox.stub(Course, "query").returns({
             findById: sandbox.stub().returns({
                 id: id,
-                department_id: department_id,
-                course_number: course_number
+                department_id: 1,
+                course_number: 101
             })
         })
         
@@ -93,15 +93,15 @@ describe('Controller - Course', () => {
         let course_number = '101'
         course_expected = {
             id: 1,
-            department_id: department_id,
-            course_number: course_number
+            department_id: 1,
+            course_number: 101
         }        
 
         sandbox.stub(Course, "query").returns({
             insert: sandbox.stub().returns({
                 id: 1,
-                department_id: department_id,
-                course_number: course_number
+                department_id: 1,
+                course_number: 101
             })
         })
         
@@ -120,20 +120,20 @@ describe('Controller - Course', () => {
         let course_number = '202'
         let course_expected = {
             id: id,
-            department_id: department_id,
-            course_number: course_number
+            department_id: 2,
+            course_number: 202
         }
 
         sandbox.stub(Course, "query").returns({
             patchAndFetchById: sandbox.stub().returns({
                 id: id,
-                department_id: department_id,
-                course_number: course_number
+                department_id: 2,
+                course_number: 202
             })
         })
         
         // Act
-        let course_retrieved = await TestCourseController.updateById(id)
+        let course_retrieved = await TestCourseController.updateById(id, department_id, course_number)
 
         // Assert
         expect(course_retrieved).to.deep.equal(course_expected)  
