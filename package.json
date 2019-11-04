@@ -13,7 +13,8 @@
     "seed:test": "node ./node_modules/knex/bin/cli.js --env test seed:run",
     "run_db": "docker build db/. -t abet-database && docker run -d --rm -p 5432:5432 abet-database",
     "setup_db": "npm run migrate && npm run migrate:test && npm run seed && npm run seed:test",
-    "test": "NODE_ENV=test nyc node ./node_modules/mocha/bin/mocha --exit \"src/test/cases/**/*.js\" && nyc report --reporter=text-lcov > coverage.lcov && CODECOV_TOKEN=719884bc-4dbd-4174-ad0e-a7a7a31a82fb codecov"
+    "test": "NODE_ENV=test node ./node_modules/mocha/bin/mocha --exit \"src/test/cases/**/*.js\"",
+    "test_coverage": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov && CODECOV_TOKEN=719884bc-4dbd-4174-ad0e-a7a7a31a82fb codecov" 
   },
   "repository": {
     "type": "git",
