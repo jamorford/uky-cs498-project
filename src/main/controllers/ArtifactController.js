@@ -1,27 +1,28 @@
 const Artifact = require('../models/CoursePortfolio/Artifact')
 
 class ArtifactController {
-    constructor(portfolio_slo_id, index, name) {
-        // Attributes
-        this.portfolio_slo_id = portfolio_slo_id
-        this.index = index
-        this.name = name
-
-        // query for attributes
-        this.artifact_query = {
-            portfolio_slo_id: parseInt(this.portfolio_slo_id),
-            index: parseInt(this.index),
+    // Generate query payload
+    generateArtifactPayload(portfolio_slo_id, index, name){
+        return {
+            portfolio_slo_id: parseInt(portfolio_slo_id),
+            index: parseInt(index),
             name: name
         }
     }
 
     // get new artifact
-    async get() {
+    async getByAttributes(portfolio_slo_id, index, name) {
         return Artifact
         .query()
-        .where('porfolio_slo_id', this.portfolio_slo_id)
-        .where('index', this.index)
-        .where('name', this.name)
+        .where('porfolio_slo_id', parseInt(portfolio_slo_id))
+        .where('index', parseInt(index))
+        .where('name', name)
+    }
+
+    async getById(id) {
+        return Artifact
+        .query()
+        .findById(id)
     }
 
     // insert an artifact
@@ -32,19 +33,33 @@ class ArtifactController {
     }
 
     // update an artifact
-    async update() {
+    async updateById(id, portfolio_slo_id, index, name) {
         return Artifact
         .query()
-        .patch(this.artifact_query)
+        .patchAndFetchById(id, portfolio_slo_id, index, name)
     }
 
     // delete an artifact
-    async delete() {
-        artifact_exist = await this.get()
-        if (artifact_exist != []) {
-            Artifact.query()
-            .deleteById(artifact_exist[0].id)
-        }
+    async deleteById(id) {
+        const numDeleted = await Artifact
+            .query()
+            .deleteById(id)
+
+        // Return true if a course is successfully deleted
+        return numDeleted > 0
+    }
+
+    // Delete a course
+    async deleteByAttributes(portfolio_slo_id, index, name) {
+        const numDeleted = await Artifact
+            .query()
+            .delete()
+            .where('portfolio_slo_id', parseInt(portfolio_slo_id))
+            .where('index', parseInt(index))
+            .where('name', parseInt(name))
+
+        // Return true if a course is successfully deleted
+        return numDeleted > 0
     }
 }
 

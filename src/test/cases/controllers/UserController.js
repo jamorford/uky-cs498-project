@@ -6,25 +6,11 @@ const sandbox = sinon.createSandbox()
 
 describe ('Controller - User', () => {
     const UserController = require('../../../main/controllers/UserController')
+    const User = require('../../../main/models/User')
 
     // this is ran after each unit test
     afterEach(() => {
         sandbox.restore()
-    })
-
-    it('generates a payload', async () => {
-        // Arrange
-        const TestUserController = new UserController()
-        let linkblue_id = 'abcd12'
-        expected_payload = {
-            linkblue_id: linkblue_id
-        }
-
-        // Act
-        let payload = await TestUserController.generateUserPayload(linkblue_id)
-
-        // Assert
-        expect(payload).to.deep.equal(expected_payload)  
     })
 
     it('gets by attributes', async () => {
@@ -38,10 +24,8 @@ describe ('Controller - User', () => {
 
         sandbox.stub(User, "query").returns({
             where: sandbox.stub().returns({
-                where: sandbox.stub().returns({
-                    id: 1,
-                    linkblue_id: linkblue_id
-                })
+                id: 1,
+                linkblue_id: linkblue_id
             })
         })
         
@@ -129,9 +113,7 @@ describe ('Controller - User', () => {
         let linkblue_id = 'abcd12'
         sandbox.stub(User, "query").returns({
             delete: sandbox.stub().returns({
-                where: sandbox.stub().returns({
-                    where: sandbox.stub().returns(1)
-                })
+                where: sandbox.stub().returns(1)
             })
         })
         

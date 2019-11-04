@@ -1,45 +1,51 @@
 const User = require('../models/User')
 
 class UserController {
-    constructor(linkblue_id) {
-        // Attributes
-        this.linkblue_id = linkblue_id
-
-        // Query for attributes
-        this.user_query = {
-            linkblue_id: linkblue_id
-        }
-    }
-
+    
     // get a user
-    async get() {
+    async getByAttributes(linkblue_id) {
         return User
         .query()
-        .where('linkblue_id', this.linkblue_id)
+        .where('linkblue_id', {linkblue_id})
+    }
+
+    async getById(id) {
+        return User
+        .query()
+        .findById(id)
     }
 
     // insert a user
-    async insert() {
+    async insert(linkblue_id) {
         return User
         .query()
-        .insert(this.user_query)
+        .insert({linkblue_id})
     }
 
     // update a user
-    async update() {
+    async updateById(id, linkblue_id) {
         return User
         .query()
-        .patch(this.user_query)
+        .patchAndFetchById(id, {linkblue_id})
     }
 
-    // delete a user
-    async delete() {
-        user_exist = await this.get()
-        if (user_exist != []) {
-            User.query()
-            .deleteById(user_exist[0].id)
-        }
+    async deleteById(id) {
+        const numDeleted = await User
+            .query()
+            .deleteById(id)
 
+        // Return true if a course is successfully deleted
+        return numDeleted > 0
+    }
+
+    async deleteByAttributes(linkblue_id) {
+        const numDeleted = await User
+            .query()
+            .delete()
+            .where('linkblue_id', parseInt(linkblue_id))
+
+        // Return true if a course is successfully deleted
+        return numDeleted > 0
     }
 }
 

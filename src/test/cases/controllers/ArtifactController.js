@@ -5,6 +5,7 @@ const sandbox = sinon.createSandbox()
 
 describe ('Controller - Artifact', () => {
     const ArtifactController = require('../../../main/controllers/ArtifactController')
+    const Artifacts = require('../../../main/models/CoursePortfolio/Artifact')
 
     // this is ran after each unit test
     afterEach(() => {
@@ -24,7 +25,7 @@ describe ('Controller - Artifact', () => {
         }
 
         // Act
-        let payload = await TestArtifactController.generateUserPayload(portfolio_slo_id, index, name)
+        let payload = await TestArtifactController.generateArtifactPayload(portfolio_slo_id, index, name)
 
         // Assert
         expect(payload).to.deep.equal(expected_payload)  
@@ -45,11 +46,13 @@ describe ('Controller - Artifact', () => {
 
         sandbox.stub(Artifacts, "query").returns({
             where: sandbox.stub().returns({
-                where: sandbox.stub().returns({
-                    id: 1,
-                    portfolio_slo_id: parseInt(portfolio_slo_id),
-                    index: parseInt(index),
-                    name: name
+                where: sandbox.stub().returns({                    
+                    where: sandbox.stub().returns({
+                        id: 1,
+                        portfolio_slo_id: parseInt(portfolio_slo_id),
+                        index: parseInt(index),
+                        name: name
+                    })
                 })
             })
         })
@@ -159,7 +162,9 @@ describe ('Controller - Artifact', () => {
         sandbox.stub(Artifacts, "query").returns({
             delete: sandbox.stub().returns({
                 where: sandbox.stub().returns({
-                    where: sandbox.stub().returns(1)
+                    where: sandbox.stub().returns({
+                        where: sandbox.stub().returns(1)
+                    })
                 })
             })
         })
@@ -180,7 +185,9 @@ describe ('Controller - Artifact', () => {
         sandbox.stub(Artifacts, "query").returns({
             delete: sandbox.stub().returns({
                 where: sandbox.stub().returns({
-                    where: sandbox.stub().returns(0)
+                    where: sandbox.stub().returns({
+                        where: sandbox.stub().returns(0)
+                    })
                 })
             })
         })
