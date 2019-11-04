@@ -22,8 +22,8 @@ describe('Controller - Portfolio SLO', () => {
         let portfolio_id = '1'
         let slo_id = '1'
         expected_payload = {
-            portfolio_id: parseInt(portfolio_id),
-            slo_id: parseInt(slo_id)
+            portfolio_id: 1,
+            slo_id: 1
         }
         // Act
         let payload = await TestPortfolioSLOController.generateCoursePayload(portfolio_id, slo_id)
@@ -39,16 +39,16 @@ describe('Controller - Portfolio SLO', () => {
         let slo_id = '1'
         let portfolio_slo_expected = {
             id: 1,
-            portfolio_id: parseInt(portfolio_id),
-            slo_id: parseInt(slo_id)
+            portfolio_id: portfolio_id,
+            slo_id: slo_id
         }
 
         sandbox.stub(PortfolioSLO, "query").returns({
             where: sandbox.stub().returns({
                 where: sandbox.stub().returns({
                     id: 1,
-                    portfolio_id: parseInt(portfolio_id),
-                    slo_id: parseInt(slo_id)
+                    portfolio_id: portfolio_id,
+                    slo_id: slo_id
                 })
             })
         })
@@ -68,15 +68,15 @@ describe('Controller - Portfolio SLO', () => {
         let slo_id = '1'
         let portfolio_slo_expected = {
             id: id,
-            portfolio_id: parseInt(portfolio_id),
-            slo_id: parseInt(slo_id)
+            portfolio_id: portfolio_id,
+            slo_id: slo_id
         }
 
         sandbox.stub(PortfolioSLO, "query").returns({
             findById: sandbox.stub().returns({
                 id: id,
-                portfolio_id: parseInt(portfolio_id),
-                slo_id: parseInt(slo_id)
+                portfolio_id: portfolio_id,
+                slo_id: slo_id
             })
         })
         
@@ -94,15 +94,15 @@ describe('Controller - Portfolio SLO', () => {
         let slo_id = '1'
         portfolio_slo_expected = {
             id: 1,
-            portfolio_id: parseInt(portfolio_id),
-            slo_id: parseInt(slo_id)
+            portfolio_id: portfolio_id,
+            slo_id: slo_id
         }        
 
         sandbox.stub(PortfolioSLO, "query").returns({
             insert: sandbox.stub().returns({
                 id: 1,
-                portfolio_id: parseInt(portfolio_id),
-                slo_id: parseInt(slo_id)
+                portfolio_id: portfolio_id,
+                slo_id: slo_id
             })
         })
         
@@ -121,15 +121,15 @@ describe('Controller - Portfolio SLO', () => {
         let id = 2
         let portfolio_slo_expected = {
             id: id,
-            portfolio_id: parseInt(portfolio_id),
-            slo_id: parseInt(slo_id)
+            portfolio_id: portfolio_id,
+            slo_id: slo_id
         }
 
         sandbox.stub(PortfolioSLO, "query").returns({
             patchAndFetchById: sandbox.stub().returns({
                 id: 2,
-                portfolio_id: parseInt(portfolio_id),
-                slo_id: parseInt(slo_id)
+                portfolio_id: portfolio_id,
+                slo_id: slo_id
             })
         })
         
