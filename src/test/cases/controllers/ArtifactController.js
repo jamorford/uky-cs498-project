@@ -19,8 +19,8 @@ describe ('Controller - Artifact', () => {
         let index = 1
         let name = 'exam1'
         expected_payload = {
-            portfolio_slo_id: parseInt(portfolio_slo_id),
-            index: parseInt(index),
+            portfolio_slo_id: portfolio_slo_id,
+            index: index,
             name: name
         }
 
@@ -39,8 +39,8 @@ describe ('Controller - Artifact', () => {
         let name = 'exam1'
         let artifact_expected = {
             id: 1,
-            portfolio_slo_id: parseInt(portfolio_slo_id),
-            index: parseInt(index),
+            portfolio_slo_id: portfolio_slo_id,
+            index: index,
             name: name
         }
 
@@ -49,8 +49,8 @@ describe ('Controller - Artifact', () => {
                 where: sandbox.stub().returns({                    
                     where: sandbox.stub().returns({
                         id: 1,
-                        portfolio_slo_id: parseInt(portfolio_slo_id),
-                        index: parseInt(index),
+                        portfolio_slo_id: portfolio_slo_id,
+                        index: index,
                         name: name
                     })
                 })
@@ -72,16 +72,16 @@ describe ('Controller - Artifact', () => {
         let name = 'exam1'
         artifact_expected = {
             id: 1,
-            portfolio_slo_id: parseInt(portfolio_slo_id),
-            index: parseInt(index),
+            portfolio_slo_id: portfolio_slo_id,
+            index: index,
             name: name
         }        
 
         sandbox.stub(Artifacts, "query").returns({
             insert: sandbox.stub().returns({
                 id: 1,
-                portfolio_slo_id: parseInt(portfolio_slo_id),
-                index: parseInt(index),
+                portfolio_slo_id: portfolio_slo_id,
+                index: index,
                 name: name
             })
         })
@@ -102,16 +102,16 @@ describe ('Controller - Artifact', () => {
         let name = 'exam1'
         let artifact_expected = {
             id: id,
-            portfolio_slo_id: parseInt(portfolio_slo_id),
-            index: parseInt(index),
+            portfolio_slo_id: portfolio_slo_id,
+            index: index,
             name: name
         }
 
         sandbox.stub(Artifacts, "query").returns({
             findById: sandbox.stub().returns({
                 id: id,
-                portfolio_slo_id: parseInt(portfolio_slo_id),
-                index: parseInt(index),
+                portfolio_slo_id: portfolio_slo_id,
+                index: index,
                 name: name
             })
         })
@@ -132,16 +132,16 @@ describe ('Controller - Artifact', () => {
         let name = 'exam2'
         let artifact_expected = {
             id: id,
-            portfolio_slo_id: parseInt(portfolio_slo_id),
-            index: parseInt(index),
+            portfolio_slo_id: portfolio_slo_id,
+            index: index,
             name: name
         }
 
         sandbox.stub(Artifacts, "query").returns({
             patchAndFetchById: sandbox.stub().returns({
                 id: id,
-                portfolio_slo_id: parseInt(portfolio_slo_id),
-                index: parseInt(index),
+                portfolio_slo_id: portfolio_slo_id,
+                index: index,
                 name: name
             })
         })
