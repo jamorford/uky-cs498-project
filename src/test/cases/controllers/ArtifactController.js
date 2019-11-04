@@ -147,7 +147,7 @@ describe ('Controller - Artifact', () => {
         })
         
         // Act
-        let artifact_retrieved = await TestArtifactController.updateById(id)
+        let artifact_retrieved = await TestArtifactController.updateById(id, portfolio_slo_id, index, name)
 
         // Assert
         expect(artifact_retrieved).to.deep.equal(artifact_expected)

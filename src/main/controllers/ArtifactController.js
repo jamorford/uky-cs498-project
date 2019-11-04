@@ -26,10 +26,10 @@ class ArtifactController {
     }
 
     // insert an artifact
-    async insert() {
+    async insert(portfolio_slo_id, index, name) {
         return Artifact
         .query()
-        .insert(this.artifact_query)
+        .insert(this.generateArtifactPayload(portfolio_slo_id, index, name))
     }
 
     // update an artifact

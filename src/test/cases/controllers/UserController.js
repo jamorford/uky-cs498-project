@@ -101,7 +101,7 @@ describe ('Controller - User', () => {
         })
         
         // Act
-        let user_retrieved = await TestUserController.updateById(id)
+        let user_retrieved = await TestUserController.updateById(id, linkblue_id)
 
         // Assert
         expect(user_retrieved).to.deep.equal(user_expected)
