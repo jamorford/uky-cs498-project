@@ -21,8 +21,8 @@ describe('Controller - Course', () => {
         let department_id = '1'
         let course_number = '101'
         expected_payload = {
-            department_id: parseInt(department_id),
-            number: parseInt(course_number)
+            department_id: 1,
+            number: 101
         }
         // Act
         let payload = await TestCourseController.generateCoursePayload(department_id, course_number)
@@ -38,16 +38,16 @@ describe('Controller - Course', () => {
         let course_number = '101'
         let course_expected = {
             id: 1,
-            department_id: parseInt(department_id),
-            course_number: parseInt(course_number)
+            department_id: department_id,
+            course_number: course_number
         }
 
         sandbox.stub(Course, "query").returns({
             where: sandbox.stub().returns({
                 where: sandbox.stub().returns({
                     id: 1,
-                    department_id: parseInt(department_id),
-                    course_number: parseInt(course_number)
+                    department_id: department_id,
+                    course_number: course_number
                 })
             })
         })
@@ -67,15 +67,15 @@ describe('Controller - Course', () => {
         let course_number = '101'
         let course_expected = {
             id: id,
-            department_id: parseInt(department_id),
-            course_number: parseInt(course_number)
+            department_id: department_id,
+            course_number: course_number
         }
 
         sandbox.stub(Course, "query").returns({
             findById: sandbox.stub().returns({
                 id: id,
-                department_id: parseInt(department_id),
-                course_number: parseInt(course_number)
+                department_id: department_id,
+                course_number: course_number
             })
         })
         
@@ -93,15 +93,15 @@ describe('Controller - Course', () => {
         let course_number = '101'
         course_expected = {
             id: 1,
-            department_id: parseInt(department_id),
-            course_number: parseInt(course_number)
+            department_id: department_id,
+            course_number: course_number
         }        
 
         sandbox.stub(Course, "query").returns({
             insert: sandbox.stub().returns({
                 id: 1,
-                department_id: parseInt(department_id),
-                course_number: parseInt(course_number)
+                department_id: department_id,
+                course_number: course_number
             })
         })
         
@@ -120,15 +120,15 @@ describe('Controller - Course', () => {
         let course_number = '202'
         let course_expected = {
             id: id,
-            department_id: parseInt(department_id),
-            course_number: parseInt(course_number)
+            department_id: department_id,
+            course_number: course_number
         }
 
         sandbox.stub(Course, "query").returns({
             patchAndFetchById: sandbox.stub().returns({
                 id: id,
-                department_id: parseInt(department_id),
-                course_number: parseInt(course_number)
+                department_id: department_id,
+                course_number: course_number
             })
         })
         
