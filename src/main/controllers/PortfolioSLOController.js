@@ -3,10 +3,11 @@ const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome')
 class PortfolioSLOController {    
 
     // Generate query payload
-    generateCoursePayload(portfolio_id, slo_id) {
+    generateCoursePayload(portfolio_id, slo_id, expireDate) {
         return {
             portfolio_id: parseInt(portfolio_id),
-            slo_id: parseInt(slo_id)
+            slo_id: parseInt(slo_id),
+            expireDate: expireDate
         }
     }
 
@@ -16,6 +17,7 @@ class PortfolioSLOController {
             .query()
             .where('portfolio_id', parseInt(portfolio_id))
             .where('slo_id', parseInt(slo_id))
+            //.where('expireDate', expireDate)
     }
 
     async getById(id) {
@@ -25,10 +27,11 @@ class PortfolioSLOController {
     }
 
     // Insert a course
-    async insert(portfolio_id, slo_id) {     
+    async insert(portfolio_id, slo_id) {
+        var expireDate = Date.parse("January 1, 2020")      // change expiration date to 2 weeks after finals using Date.parse
         return await PortfolioSLO
             .query()
-            .insert(this.generateCoursePayload(portfolio_id, slo_id))
+            .insert(this.generateCoursePayload(portfolio_id, slo_id, expireDate))
     }    
 
     // Update a course
@@ -57,6 +60,22 @@ class PortfolioSLOController {
 
         // Return true if a course is successfully deleted
         return numDeleted > 0
+    }
+
+    // check if current date is past portfolio's expiration date
+    checkDateStatus(portfolio_id, slo_id, expireDate) {
+        var datestat = 1          // 1 means active, 0 means archived
+        //t = PortfolioSLOController.getByAttributes(portfolio_id, slo_id, expireDate)
+
+        var d = new Date()
+        var current = d.getTime()
+        if (current < expireDate) {
+            datestat = 1
+        }
+        else {
+            datestat = 0
+        }
+        return datestat
     }
 }
 

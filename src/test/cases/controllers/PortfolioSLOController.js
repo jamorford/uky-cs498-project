@@ -21,12 +21,14 @@ describe('Controller - Portfolio SLO', () => {
         let TestPortfolioSLOController = new PortfolioSLOController()
         let portfolio_id = '1'
         let slo_id = '1'
+        let expireDate = Date.parse("January 1, 2020")
         expected_payload = {
             portfolio_id: 1,
-            slo_id: 1
+            slo_id: 1,
+            expireDate: expireDate
         }
         // Act
-        let payload = await TestPortfolioSLOController.generateCoursePayload(portfolio_id, slo_id)
+        let payload = await TestPortfolioSLOController.generateCoursePayload(portfolio_id, slo_id, expireDate)
 
         // Assert
         expect(payload).to.deep.equal(expected_payload)  
@@ -37,10 +39,12 @@ describe('Controller - Portfolio SLO', () => {
         let TestPortfolioSLOController = new PortfolioSLOController()
         let portfolio_id = '1'
         let slo_id = '1'
+        let expireDate = Date.parse("January 1, 2020")
         let portfolio_slo_expected = {
             id: 1,
             portfolio_id: portfolio_id,
-            slo_id: slo_id
+            slo_id: slo_id,
+            expireDate: expireDate
         }
 
         sandbox.stub(PortfolioSLO, "query").returns({
@@ -48,13 +52,14 @@ describe('Controller - Portfolio SLO', () => {
                 where: sandbox.stub().returns({
                     id: 1,
                     portfolio_id: portfolio_id,
-                    slo_id: slo_id
+                    slo_id: slo_id,
+                    expireDate: expireDate
                 })
             })
         })
         
         // Act
-        let portfolio_slo_retrieved = await TestPortfolioSLOController.getByAttributes(portfolio_id, slo_id)
+        let portfolio_slo_retrieved = await TestPortfolioSLOController.getByAttributes(portfolio_id, slo_id, expireDate)
 
         // Assert
         expect(portfolio_slo_retrieved).to.deep.equal(portfolio_slo_expected)  
@@ -92,17 +97,20 @@ describe('Controller - Portfolio SLO', () => {
         let TestPortfolioSLOController = new PortfolioSLOController()
         let portfolio_id = '1'
         let slo_id = '1'
+        let expireDate = Date.parse("January 1, 2020")
         portfolio_slo_expected = {
             id: 1,
             portfolio_id: portfolio_id,
-            slo_id: slo_id
+            slo_id: slo_id,
+            expireDate: expireDate
         }        
 
         sandbox.stub(PortfolioSLO, "query").returns({
             insert: sandbox.stub().returns({
                 id: 1,
                 portfolio_id: portfolio_id,
-                slo_id: slo_id
+                slo_id: slo_id,
+                expireDate: expireDate
             })
         })
         
@@ -209,5 +217,55 @@ describe('Controller - Portfolio SLO', () => {
         // Assert
         expect(portfolio_slo_deleted).to.equal(false)
 
+    })
+    
+    it('changes status to archived if expiration date has passed', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let portfolio_id = '1'
+        let slo_id = '1'
+        let id = 1
+        let expireDate = 0
+        sandbox.stub(PortfolioSLO, "query").returns({
+            where: sandbox.stub().returns({
+                where: sandbox.stub().returns({
+                    id: 1,
+                    portfolio_id: portfolio_id,
+                    slo_id: slo_id,
+                    expireDate: expireDate
+                })
+            })
+        })
+
+        // Act
+        let portfolio_slo_status = TestPortfolioSLOController.checkDateStatus(portfolio_id, slo_id)
+
+        // Assert
+        expect(portfolio_slo_status).to.equal(0)
+    })
+    
+    it('status does not change if expiration date has not passed', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let portfolio_id = '1'
+        let slo_id = '1'
+        let id = 1
+        let expireDate = Date.parse("January 1, 2020")
+        sandbox.stub(PortfolioSLO, "query").returns({
+            where: sandbox.stub().returns({
+                where: sandbox.stub().returns({
+                    id: 1,
+                    portfolio_id: portfolio_id,
+                    slo_id: slo_id,
+                    expireDate: expireDate
+                })
+            })
+        })
+
+        // Act
+        let portfolio_slo_status = TestPortfolioSLOController.checkDateStatus(portfolio_id, slo_id, expireDate)
+
+        // Assert
+        expect(portfolio_slo_status).to.equal(1)
     })
 })

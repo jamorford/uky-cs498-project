@@ -6,10 +6,12 @@ describe('Model - CoursePortfolioStudentLearningOutcomes', () => {
 	describe('lookup', () => {
 
 		it('with id', async () => {
+			expireDate = ""
 			const slo = await CoursePortfolioStudentLearningOutcome.query()
 				.findById(1)
 
 			expect(slo).to.deep.equal({
+				expireDate: expireDate,
 				id: 1,
 				portfolio_id: 1,
 				slo_id: 1
