@@ -7,6 +7,25 @@ const sandbox = sinon.createSandbox();
 
 describe('Lib - CoursePortfolio', () => {
 
+	describe('new', () => {
+
+		// this is ran after each unit test
+		afterEach(() => {
+			// this is needed to restore the CoursePortfolio model back to it's original state
+			// we don't want to break all future unit tests
+			sandbox.restore()
+		})
+
+		it('creates new course', async () => {
+			// Arrange
+
+			// Act
+
+			// Assert
+		})
+
+	})
+
 	describe('get', () => {
 
 		// this is ran after each unit test
