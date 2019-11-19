@@ -3,21 +3,23 @@ const Portfolio = require('../../models/CoursePortfolio/index.js')
 class PortfolioController {
 
     // Used for insert statements
-    generatePayload(course_id, instructor_id, semester_term_id, num_students, section, year) {
+    generatePayload(course_id, instructor_id, semester_term_id, num_students, section, year, expireDate) {
         return {
             'course_id': parseInt(course_id), 
             'instructor_id': parseInt(instructor_id),
             'semester_term_id': parseInt(semester_term_id),
             'num_students': parseInt(num_students),
             'section': parseInt(section),
-            'year': parseInt(year)
+            'year': parseInt(year),
+            'expireDate': expireDate
         }
     }
 
     async insert(course_id, instructor_id, semester_term_id, num_students, section, year) {
+        var expireDate = Date.parse("January 1, 2020")      // change expiration date to 2 weeks after finals using Date.parse
         return await Portfolio
             .query()
-            .insert(this.generatePayload(course_id, instructor_id, semester_term_id, num_students, section, year))
+            .insert(this.generatePayload(course_id, instructor_id, semester_term_id, num_students, section, year, expireDate))
     }
 
     async getByAttributes(course_id, instructor_id, semester_term_id, num_students, section, year) {
@@ -50,6 +52,20 @@ class PortfolioController {
 
         // Return true if a course is successfully deleted
         return numDeleted > 0
+    }
+
+    // check if current date is past portfolio's expiration date
+    checkDateStatus(expireDate) {
+        var datestat = 1          // 1 means active, 0 means archived
+        var d = new Date()
+        var current = d.getTime()
+        if (current < expireDate) {
+            datestat = 1
+        }
+        else {
+            datestat = 0
+        }
+        return datestat
     }
 
 }
