@@ -10,7 +10,7 @@ class Janitor {
     }
 
     static sanitizeString(input) {
-        // Only accept primatives
+        // Only accept primitives
         if (input instanceof Object || input == null) {
             return null
         }
@@ -25,7 +25,7 @@ class Janitor {
     }
 
     static sanitizeInt(input) {
-        // Only accept primatives
+        // Only accept primitives
         if (input instanceof Object || input == null) {
             return null
         }
