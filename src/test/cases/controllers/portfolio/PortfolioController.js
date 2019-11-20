@@ -23,6 +23,7 @@ describe('Controller - Portfolio', () => {
         let num_students = '10'
         let section = '1'
         let year = '2000'
+        let expireDate = Date.parse("January 1, 2020")
 
         expected_payload = {
             course_id: 1,
@@ -30,11 +31,12 @@ describe('Controller - Portfolio', () => {
             semester_term_id: 1,
             num_students: 10,
             section: 1,
-            year: 2000
+            year: 2000,
+            expireDate: expireDate
         }
 
         // Act
-        let payload = await TestPortfolioController.generatePayload(course_id, instructor_id, semester_term_id, num_students, section, year)
+        let payload = await TestPortfolioController.generatePayload(course_id, instructor_id, semester_term_id, num_students, section, year, expireDate)
 
         // Assert
         expect(payload).to.deep.equal(expected_payload)  
@@ -50,6 +52,7 @@ describe('Controller - Portfolio', () => {
         let num_students = '10'
         let section = '1'
         let year = '2000'
+        let expireDate = Date.parse("January 1, 2020")
 
         output_expected = {
             id: 1,
@@ -58,7 +61,8 @@ describe('Controller - Portfolio', () => {
             semester_term_id: 1,
             num_students: 10,
             section: 1,
-            year: 2000
+            year: 2000,
+            expireDate: expireDate
         }
 
         sandbox.stub(Portfolio, "query").returns({
@@ -74,7 +78,8 @@ describe('Controller - Portfolio', () => {
                                     semester_term_id: 1,
                                     num_students: 10,
                                     section: 1,
-                                    year: 2000
+                                    year: 2000,
+                                    expireDate: expireDate
                                 })
                             })
                         })
@@ -84,7 +89,7 @@ describe('Controller - Portfolio', () => {
         })
         
         // Act
-        let output_test = await TestPortfolioController.getByAttributes(course_id, instructor_id, semester_term_id, num_students, section, year)
+        let output_test = await TestPortfolioController.getByAttributes(course_id, instructor_id, semester_term_id, num_students, section, year, expireDate)
 
         // Assert
         expect(output_test).to.deep.equal(output_expected)  
@@ -95,6 +100,7 @@ describe('Controller - Portfolio', () => {
         // course_id, instructor_id, semester_term_id, num_students, section, year
         const TestPortfolioController = new PortfolioController()
         let id = '1'
+        let expireDate = Date.parse("January 1, 2020")
 
         output_expected = {
             id: 1,
@@ -103,7 +109,8 @@ describe('Controller - Portfolio', () => {
             semester_term_id: 1,
             num_students: 10,
             section: 1,
-            year: 2000
+            year: 2000,
+            expireDate: expireDate
         }
 
         sandbox.stub(Portfolio, "query").returns({
@@ -114,7 +121,8 @@ describe('Controller - Portfolio', () => {
                 semester_term_id: 1,
                 num_students: 10,
                 section: 1,
-                year: 2000
+                year: 2000,
+                expireDate: expireDate
             })
         })
         
@@ -135,6 +143,7 @@ describe('Controller - Portfolio', () => {
         let num_students = '10'
         let section = '1'
         let year = '2000'
+        let expireDate = Date.parse("January 1, 2020")
 
         expected_output = {
             id: 1,
@@ -143,7 +152,8 @@ describe('Controller - Portfolio', () => {
             semester_term_id: 1,
             num_students: 10,
             section: 1,
-            year: 2000
+            year: 2000,
+            expireDate: expireDate
         }        
 
         sandbox.stub(Portfolio, "query").returns({
@@ -154,7 +164,8 @@ describe('Controller - Portfolio', () => {
                 semester_term_id: 1,
                 num_students: 10,
                 section: 1,
-                year: 2000
+                year: 2000,
+                expireDate: expireDate
             })
         })
         
@@ -234,6 +245,75 @@ describe('Controller - Portfolio', () => {
 
         // Assert
         expect(deleted).to.equal(false)
+    })
 
+    it('changes status to archived if expiration date has passed', function () {
+        // Arrange
+        let TestPortfolioController = new PortfolioController()
+        
+        let expireDate = 0
+        sandbox.stub(Portfolio, "query").returns({
+            where: sandbox.stub().returns({
+                where: sandbox.stub().returns({
+                    where: sandbox.stub().returns({
+                        where: sandbox.stub().returns({
+                            where: sandbox.stub().returns({
+                                where: sandbox.stub().returns({
+                                    id: 1,
+                                    course_id: 1,
+                                    instructor_id: 1,
+                                    semester_term_id: 1,
+                                    num_students: 10,
+                                    section: 1,
+                                    year: 2000,
+                                    expireDate: expireDate
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+
+        // Act
+        let portfolio_status = TestPortfolioController.checkDateStatus(expireDate)
+
+        // Assert
+        expect(portfolio_status).to.equal(0)
+    })
+
+    it('status does not change if expiration date has not passed', function () {
+        // Arrange
+        let TestPortfolioController = new PortfolioController()
+        
+        let expireDate = Date.parse("January 1, 2020")
+        sandbox.stub(Portfolio, "query").returns({
+            where: sandbox.stub().returns({
+                where: sandbox.stub().returns({
+                    where: sandbox.stub().returns({
+                        where: sandbox.stub().returns({
+                            where: sandbox.stub().returns({
+                                where: sandbox.stub().returns({
+                                    id: 1,
+                                    course_id: 1,
+                                    instructor_id: 1,
+                                    semester_term_id: 1,
+                                    num_students: 10,
+                                    section: 1,
+                                    year: 2000,
+                                    expireDate: expireDate
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+
+        // Act
+        let portfolio_status = TestPortfolioController.checkDateStatus(expireDate)
+
+        // Assert
+        expect(portfolio_status).to.equal(1)
     })
 })
