@@ -10,7 +10,6 @@ describe('Model - CoursePortfolioStudentLearningOutcomes', () => {
 				.findById(1)
 
 			expect(slo).to.deep.equal({
-				expireDate: "",
 				id: 1,
 				portfolio_id: 1,
 				slo_id: 1
