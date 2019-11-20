@@ -15,7 +15,7 @@ describe('generates random student indexes', function () {
     })
 
     
-    it ('with 10 students given 10 students', function() {
+    it ('with 10 students given 50 students', function() {
         // Arrange
         let student_indexes = []
 
