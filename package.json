@@ -47,8 +47,5 @@
     "nodemon": "^1.19.2",
     "nyc": "^14.1.1",
     "sinon": "^7.5.0"
-  },
-  "nyc": {
-    "include": "src/main"
   }
 }
