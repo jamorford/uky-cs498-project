@@ -11,16 +11,52 @@ const EvaluationController = require('../controllers/CoursePortfolio/Artifact/Ev
 // Import libraries
 const random_students_subset = require('./random_students_subset');
 
-module.exports.new = async ({
-	department_id,
-	course_number,
-	instructor,
-	semester,
-	year,
-	num_students,
-	student_learning_outcomes,
-	section
-}) => {
+// Moved Ethan's default logic for creating a mustache-ready json object from a portfolio to a separate function to avoid duplicate code
+module.exports.generateMustachePorfolio = async (portfolio_id) => {	
+	let raw_portfolio = await Portfolio.query()
+		.eager({
+			course: {
+				department: true
+			},
+			instructor: true,
+			semester: true,
+			outcomes: {
+				slo: {
+					metrics: true
+				},
+				artifacts: {
+					evaluations: true
+				}
+			}
+		})
+		.findById(portfolio_id)
+
+	let portfolio = {
+		portfolio_id: raw_portfolio.id,
+		course_id: raw_portfolio.course_id,
+		instructor: raw_portfolio.instructor,
+		num_students: raw_portfolio.num_students,
+		outcomes: [],
+		course: {
+			department: raw_portfolio.course.department.identifier,
+			number: raw_portfolio.course.number,
+			section: raw_portfolio.section,
+			semester: raw_portfolio.semester.value,
+			year: raw_portfolio.year
+		},
+	}
+
+	for (let i in raw_portfolio.outcomes) {
+		portfolio.outcomes.push(Object.assign({
+			artifacts: raw_portfolio.outcomes[i].artifacts
+		}, raw_portfolio.outcomes[i].slo))
+	}
+
+	return portfolio
+}
+
+// Generates a portfolio and returns the generated portfolio id
+module.exports.generatePortfolio = async (department_id, course_number, instructor, semester, year, num_students, student_learning_outcomes, section) => {
 	// Allocate controller classes
 	let portfolioController = new PortfolioController();
 	let courseController = new CourseController();
@@ -30,10 +66,12 @@ module.exports.new = async ({
 
 	// Query info for the inputted course
 	let course_exist = await courseController.getByAttributes(department_id, course_number)
-	
+
 	// Declare variables needed in main scope
 	let course_id = -1
-	let portfolio_id = -1
+
+	// Declare default expiration date (change manually when semesters change)
+	let exp_date = Date.parse("January 1, 2020")
 
 	// If course doesn't exist, make a new course
 	if (course_exist.length == 0){		
@@ -44,11 +82,11 @@ module.exports.new = async ({
 	}
 	
 	// Check if portfolio already exists
-	let portfolio_exist = await portfolioController.getByAttributes(course_id, instructor, semester, num_students, section, year)
+	let portfolio_exist = await portfolioController.getByAttributes(course_id, instructor, semester, num_students, section, year, exp_date)
 
 	// If portfolio doesn't exist, make another one
 	if (portfolio_exist.length == 0) {
-		let portfolio_result = await portfolioController.insert(course_id, instructor, semester, num_students, section, year)
+		let portfolio_result = await portfolioController.insert(course_id, instructor, semester, num_students, section, year, exp_date)
 
 		let portfolio_slo_result = await portfolioSLOController.insert(portfolio_result.id, student_learning_outcomes[0])
 		
@@ -98,92 +136,31 @@ module.exports.new = async ({
 				await evaluationController.insert(artifact_ids[i], j, i, evaluation)
 			}
 		}
-		portfolio_id = portfolio_result.id
+		return portfolio_result
 	} else {
-		portfolio_id = portfolio_exist[0].id
+		return portfolio_exist[0]
 	}
-
-	let raw_portfolio = await Portfolio.query()
-		.eager({
-			course: {
-				department: true
-			},
-			instructor: true,
-			semester: true,
-			outcomes: {
-				slo: {
-					metrics: true
-				},
-				artifacts: {
-					evaluations: true
-				}
-			}
-		})
-		.findById(portfolio_id)
-
-	let portfolio = {
-		portfolio_id: raw_portfolio.id,
-		course_id: raw_portfolio.course_id,
-		instructor: raw_portfolio.instructor,
-		num_students: raw_portfolio.num_students,
-		outcomes: [],
-		course: {
-			department: raw_portfolio.course.department.identifier,
-			number: raw_portfolio.course.number,
-			section: raw_portfolio.section,
-			semester: raw_portfolio.semester.value,
-			year: raw_portfolio.year
-		},
-	}
-
-	for (let i in raw_portfolio.outcomes) {
-		portfolio.outcomes.push(Object.assign({
-			artifacts: raw_portfolio.outcomes[i].artifacts
-		}, raw_portfolio.outcomes[i].slo))
-	}
-
-	return portfolio
 }
 
-module.exports.get = async (portfolio_id) => {
-	let raw_portfolio = await Portfolio.query()
-		.eager({
-			course: {
-				department: true
-			},
-			instructor: true,
-			semester: true,
-			outcomes: {
-				slo: {
-					metrics: true
-				},
-				artifacts: {
-					evaluations: true
-				}
-			}
-		})
-		.findById(portfolio_id)
+// Create a new course portfolio
+module.exports.new = async ({
+	department_id,
+	course_number,
+	instructor,
+	semester,
+	year,
+	num_students,
+	student_learning_outcomes,
+	section
+}) => {
+	// Generate a portfolio and get the id back
+	let portfolio = await this.generatePortfolio(department_id, course_number, instructor, semester, year, num_students, student_learning_outcomes, section)
+	
+	return await this.generateMustachePorfolio(portfolio.id)
+}
 
-	let portfolio = {
-		portfolio_id: raw_portfolio.id,
-		course_id: raw_portfolio.course_id,
-		instructor: raw_portfolio.instructor,
-		num_students: raw_portfolio.num_students,
-		outcomes: [],
-		course: {
-			department: raw_portfolio.course.department.identifier,
-			number: raw_portfolio.course.number,
-			section: raw_portfolio.section,
-			semester: raw_portfolio.semester.value,
-			year: raw_portfolio.year
-		},
-	}
-
-	for (let i in raw_portfolio.outcomes) {
-		portfolio.outcomes.push(Object.assign({
-			artifacts: raw_portfolio.outcomes[i].artifacts
-		}, raw_portfolio.outcomes[i].slo))
-	}
-
-	return portfolio
+// Get a pre-existing course portfolio
+module.exports.get = async (portfolio_id) => {	
+	// Use Ethan's pre-built function to generate a mustache-ready json object for portfolio
+	return await this.generateMustachePorfolio(portfolio_id)
 }
