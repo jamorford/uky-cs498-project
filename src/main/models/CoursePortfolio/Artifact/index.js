@@ -19,14 +19,14 @@ class CoursePortfolioArtifact extends Model {
 		return {
 			type: 'object',
 			required: [
-				'portfolio_slo_link_id',
+				'portfolio_slo_id',
 				'index',
 				'name'
 			],
 
 			properties: {
 				id: { type: 'integer' },
-				portfolio_slo_link_id: { type: 'integer' },
+				portfolio_slo_id: { type: 'integer' },
 				index: { type: 'integer' },
 				name: { type: 'string' }
 			}

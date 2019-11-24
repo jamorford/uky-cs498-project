@@ -4,7 +4,7 @@
 		Course Summary
 	</div>
 	<div class="container row">
-		{{#student_learning_outcomes}}
+		{{#outcomes}}
 		<h3>Student Learning Outcome {{index}}</h3>
 		<p>{{description}}</p>
 		<table id="student_learning_outcome_rubric">
@@ -53,8 +53,9 @@
 					</tr>
 					{{#evaluations}}
 					<tr>
-						<td>{{index}}</td>
+						<td>{{student_index}}</td>
 						{{#evaluation}}
+						{{#evaluation_metrics}}
 						<td>
 							<select name="student-{{index}}-category-{{metric}}">
 								<option value="6">Exceeds</option>
@@ -65,6 +66,7 @@
 							</select>
 							<script>$('[name=student-{{index}}-category-{{metric}}]').val('{{value}}')</script>
 						</td>
+						{{/evaluation_metrics}}
 						{{/evaluation}}
 						<td>
 							<input name="student-1-submission" type="file"></input>
@@ -77,6 +79,6 @@
 			</form>
 		</div>
 		{{/artifacts}}
-		{{/student_learning_outcomes}}
+		{{/outcomes}}
 	</div>
 </section>
