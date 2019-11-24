@@ -13,8 +13,8 @@
     "seed:test": "node ./node_modules/knex/bin/cli.js --env test seed:run",
     "run_db": "docker build db/. -t abet-database && docker run -d --rm -p 5432:5432 abet-database",
     "setup_db": "npm run migrate && npm run migrate:test && npm run seed && npm run seed:test",
-    "test": "NODE_ENV=test node ./node_modules/mocha/bin/mocha --exit \"src/test/cases/**/*.js\"",
-    "test_coverage": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov && CODECOV_TOKEN=719884bc-4dbd-4174-ad0e-a7a7a31a82fb codecov" 
+    "test": "cross-env NODE_ENV=test && nyc node ./node_modules/mocha/bin/mocha --exit \"src/test/cases/**/*.js\"",
+    "test_coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=719884bc-4dbd-4174-ad0e-a7a7a31a82fb"
   },
   "repository": {
     "type": "git",
@@ -30,21 +30,22 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "helmet": "^3.21.1",
+    "helmet": "^3.21.2",
     "http-errors": "~1.6.3",
-    "knex": "^0.19.4",
+    "knex": "^0.19.5",
     "morgan": "~1.9.1",
     "mustache-express": "^1.3.0",
     "node-sass-middleware": "0.11.0",
-    "objection": "^2.0.0-alpha.8",
-    "pg": "^7.12.1"
+    "objection": "^2.0.0-rc.1",
+    "pg": "^7.14.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.6.1",
-    "mocha": "^6.2.1",
-    "nodemon": "^1.19.2",
+    "cross-env": "^6.0.3",
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4",
     "nyc": "^14.1.1",
     "sinon": "^7.5.0"
   },
