@@ -32,7 +32,7 @@ module.exports.generateMustachePorfolio = async (portfolio_id) => {
 		.findById(portfolio_id)
 
 	let portfolio = {
-		portfolio_id: raw_portfolio.id,
+		id: raw_portfolio.id,
 		course_id: raw_portfolio.course_id,
 		instructor: raw_portfolio.instructor,
 		num_students: raw_portfolio.num_students,

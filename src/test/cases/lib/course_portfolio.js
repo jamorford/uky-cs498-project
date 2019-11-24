@@ -323,7 +323,7 @@ describe('Lib - CoursePortfolio', () => {
 
 			// Assert
 			expect(portfolio).to.deep.equal({
-				"portfolio_id": 1,
+				"id": 1,
 				"course_id": 1,
 				"instructor": {
 					"id": 1,
