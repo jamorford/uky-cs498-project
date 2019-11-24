@@ -209,4 +209,152 @@ describe('Controller - Course', () => {
         expect(courseDeleted).to.equal(false)
 
     })
+
+    it('department_id sanitation with negative integer', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let department_id = '-4'
+
+        // Act
+        let course_status = TestCourseController.sanitizeDeptId(department_id)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('department_id sanitation with empty input', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let department_id = ''
+
+        // Act
+        let course_status = TestCourseController.sanitizeDeptId(department_id)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('department_id sanitation with integer at max SQL value', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        var t = Math.pow(2,31)
+        let department_id = t.toString()
+
+        // Act 
+        let course_status = TestCourseController.sanitizeDeptId(department_id)
+
+        // Assert
+        expect(course_status).to.equal(1)
+    })
+
+    it('department_id sanitation with integer above max SQL value', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        var t = Math.pow(2,32)
+        let department_id = t.toString()
+
+        // Act 
+        let course_status = TestCourseController.sanitizeDeptId(department_id)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('department_id sanitation with input as 0', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let department_id = '0'
+
+        // Act 
+        let course_status = TestCourseController.sanitizeDeptId(department_id)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('department_id sanitation with valid input', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let department_id = '1'
+
+        // Act
+        let course_status = TestCourseController.sanitizeDeptId(department_id)
+
+        // Assert
+        expect(course_status).to.equal(1)
+    })
+
+    it('number sanitation with negative integer', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let number = '-4'
+
+        // Act
+        let course_status = TestCourseController.sanitizeNumber(number)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('number sanitation with empty input', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let number = ''
+
+        // Act
+        let course_status = TestCourseController.sanitizeNumber(number)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('number sanitation with integer at max SQL value', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        var t = Math.pow(2, 31)
+        let number = t.toString()
+
+        // Act
+        let course_status = TestCourseController.sanitizeNumber(number)
+
+        // Assert
+        expect(course_status).to.equal(1)
+    })
+
+    it('number sanitation with integer above max SQL value', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        var t = Math.pow(2, 32)
+        let number = t.toString
+
+        // Act
+        let course_status = TestCourseController.sanitizeNumber(number)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('number sanitation with input as 0', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let number = '0'
+
+        // Act
+        let course_status = TestCourseController.sanitizeNumber(number)
+
+        // Assert
+        expect(course_status).to.equal(0)
+    })
+
+    it('number sanitation with valid input', function () {
+        // Arrange
+        let TestCourseController = new CourseController()
+        let number = '100'
+
+        // Act
+        let course_status = TestCourseController.sanitizeNumber(number)
+
+        // Assert
+        expect(course_status).to.equal(1)
+    })
 })

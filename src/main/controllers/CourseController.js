@@ -1,5 +1,5 @@
 const Course = require('../models/Course')
-
+const Janitor = require('../../main/util/Janitor')
 class CourseController {    
 
     // Generate query payload
@@ -57,6 +57,36 @@ class CourseController {
 
         // Return true if a course is successfully deleted
         return numDeleted > 0
+    }
+
+    // sanitize department_id attribute
+    sanitizeDeptId(department_id) {
+        var MAXINT = Math.pow(2, 31)     // variable to represent maximum SQL value for an int
+
+        // method to check for non-empty input and valid integer
+        var san_status
+        if (Janitor.sanitizeInt(department_id) == null || Janitor.sanitizeInt(department_id) <= 0 || Janitor.sanitizeInt(department_id) > MAXINT) { // can this be 0?
+            san_status = 0
+        }
+        else {
+            san_status = 1
+        }
+        return san_status
+    }
+
+    // sanitize number attribute
+    sanitizeNumber(number) {
+        var MAXINT = Math.pow(2, 31)     // variable to represent maximum SQL value for an int
+
+        // method to check for non-empty input and valid integer
+        var san_status
+        if (Janitor.sanitizeInt(number) == null || Janitor.sanitizeInt(number) <= 0 || Janitor.sanitizeInt(number) > MAXINT) {
+            san_status = 0
+        }
+        else {
+            san_status = 1
+        }
+        return san_status
     }
 }
 
