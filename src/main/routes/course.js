@@ -8,73 +8,9 @@ const Department = require('../models/Department')
 const TermType = require('../models/TermType')
 
 const course_manage_page = async (res, course_id) => {
-	let course_info = {
-		student_learning_outcomes: [
-			{
-				index: 1,
-				description: 'n/a',
-				metrics: [
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-				],
-				artifacts: [
-					{
-						name: 'n/a',
-						evaluations: [
-							{
-								index: 1,
-								evaluation: [
-									{
-										metric: 1,
-										value: 6
-									},
-									{
-										metric: 2,
-										value: 6
-									},
-									{
-										metric: 3,
-										value: 6
-									},
-									{
-										metric: 4,
-										value: 6
-									}
-								]
-							}
-						]
-					}
-				]
-			}
-		]
-	};
-
+	
+	course_info = await course_portfolio_lib.get(course_id)
+	
 	res.render('base_template', {
 		title: 'CS498 Course Portfolio',
 		body: mustache.render('course/manage', course_info)

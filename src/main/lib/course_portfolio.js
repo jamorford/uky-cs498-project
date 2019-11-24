@@ -133,7 +133,7 @@ module.exports.generatePortfolio = async (department_id, course_number, instruct
 						}
 					]
 				}
-				await evaluationController.insert(artifact_ids[i], j, i, evaluation)
+				await evaluationController.insert(artifact_ids[i], j + 1, student_indexes[j], evaluation)
 			}
 		}
 		return portfolio_result
