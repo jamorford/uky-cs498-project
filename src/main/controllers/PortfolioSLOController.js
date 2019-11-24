@@ -1,5 +1,5 @@
 const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome')
-
+const Janitor = require('../../main/util/Janitor')
 class PortfolioSLOController {    
 
     // Generate query payload
@@ -57,6 +57,36 @@ class PortfolioSLOController {
 
         // Return true if a course is successfully deleted
         return numDeleted > 0
+    }
+
+    // sanitize portfolio_id attribute
+    sanitizePortfolioId(portfolio_id) {
+        var MAXINT = Math.pow(2,31)         // variable to represent maximum value for a SQL int
+
+        // method to check for non-empty input and valid integer
+        var san_status
+        if (Janitor.sanitizeInt(portfolio_id) == null || Janitor.sanitizeInt(portfolio_id) <= 0 || Janitor.sanitizeInt(portfolio_id) > MAXINT) {
+            san_status = 0
+        }
+        else {
+            san_status = 1
+        }
+        return san_status       // 0 means invalid input, 1 means sanitation is successful
+    }
+
+    // sanitize slo_id attribute
+    sanitizeSLOId(slo_id) {
+        var MAXINT = Math.pow(2,31)         // variable to represent maximum value for a SQL int
+        
+        // method to check for non-empty input and valid integer
+        var san_status
+        if (Janitor.sanitizeInt(slo_id) == null || Janitor.sanitizeInt(slo_id) <= 0 || Janitor.sanitizeInt(slo_id) > MAXINT) {
+            san_status = 0
+        }
+        else {
+            san_status = 1
+        }
+        return san_status       // 0 means invalid input, 1 means sanitation is successful
     }
 }
 

@@ -210,4 +210,152 @@ describe('Controller - Portfolio SLO', () => {
         expect(portfolio_slo_deleted).to.equal(false)
 
     })
+
+    it('portfolio_id sanitation with negative integer', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let portfolio_id = '-5'
+        
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('portfolio_id sanitation with empty input', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let portfolio_id = ''
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('portfolio_id sanitation with integer at max SQL value', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        var t = Math.pow(2,31)
+        let portfolio_id = t.toString()
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+
+        // Assert
+        expect(slo_status).to.equal(1)
+    })
+
+    it('portfolio_id sanitation with integer above max SQL value', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        var t = Math.pow(2,32)
+        let portfolio_id = t.toString()
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('portfolio_id sanitation with input as 0', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let portfolio_id = '0'
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('portfolio_id sanitation with valid input', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let portfolio_id = '1'
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+
+        // Assert
+        expect(slo_status).to.equal(1)
+    })
+
+    it('slo_id sanitation with negative integer', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let slo_id = '-5'
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('slo_id sanitation with empty input', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let slo_id = ''
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('slo_id sanitation with input at max SQL value', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        var t = Math.pow(2,31)
+        let slo_id = t.toString()
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+
+        // Assert
+        expect(slo_status).to.equal(1)
+    })
+
+    it('slo_id sanitation with input above max SQL value', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        var t = Math.pow(2,32)
+        let slo_id = t.toString()
+
+        // Act 
+        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('slo_id sanitation with input as 0', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let slo_id = '0'
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+
+        // Assert
+        expect(slo_status).to.equal(0)
+    })
+
+    it('slo_id sanitation with valid input', function () {
+        // Arrange
+        let TestPortfolioSLOController = new PortfolioSLOController()
+        let slo_id = '1'
+
+        // Act
+        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+
+        // Assert
+        expect(slo_status).to.equal(1)
+    })
+
+    
 })
