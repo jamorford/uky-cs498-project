@@ -210,151 +210,283 @@ describe('Controller - Course', () => {
 
     })
 
-    it('department_id sanitation with negative integer', function () {
+    it('department_id sanitation with negative integer', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         let department_id = '-4'
+        let course_number = '101'       
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: -4,
+                course_number: 101
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeDeptId(department_id)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
     })
 
-    it('department_id sanitation with empty input', function () {
+    it('department_id sanitation with empty input', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         let department_id = ''
+        let course_number = '101'       
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: department_id,
+                course_number: 101
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeDeptId(department_id)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
     })
 
-    it('department_id sanitation with integer at max SQL value', function () {
+    it('department_id sanitation with integer at max SQL value', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         var t = Math.pow(2,31)
         let department_id = t.toString()
+        let course_number = '101'   
+        course_expected = {
+            id: 1,
+            department_id: department_id,
+            course_number: 101
+        }    
 
-        // Act 
-        let course_status = TestCourseController.sanitizeDeptId(department_id)
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: department_id,
+                course_number: 101
+            })
+        })
+        
+        // Act
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(1)
+        expect(course_inserted).to.deep.equal(course_expected)
     })
 
-    it('department_id sanitation with integer above max SQL value', function () {
+    it('department_id sanitation with integer above max SQL value', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         var t = Math.pow(2,32)
         let department_id = t.toString()
+        let course_number = '101'       
 
-        // Act 
-        let course_status = TestCourseController.sanitizeDeptId(department_id)
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: department_id,
+                course_number: 101
+            })
+        })
+        
+        // Act
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
+        
     })
 
-    it('department_id sanitation with input as 0', function () {
+    it('department_id sanitation with input as 0', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         let department_id = '0'
+        let course_number = '101'       
 
-        // Act 
-        let course_status = TestCourseController.sanitizeDeptId(department_id)
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 0,
+                course_number: 101
+            })
+        })
+        
+        // Act
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
     })
 
-    it('department_id sanitation with valid input', function () {
+    it('department_id sanitation with valid input', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         let department_id = '1'
+        let course_number = '101'  
+        course_expected = {
+            id: 1,
+            department_id: 1,
+            course_number: 101
+        }     
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: 101
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeDeptId(department_id)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(1)
+        expect(course_inserted).to.deep.equal(course_expected)
     })
 
-    it('number sanitation with negative integer', function () {
+    it('number sanitation with negative integer', async () => {
         // Arrange
         let TestCourseController = new CourseController()
-        let number = '-4'
+        let department_id = '1'
+        let course_number = '-4'       
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: -4
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeNumber(number)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
     })
 
-    it('number sanitation with empty input', function () {
+    it('number sanitation with empty input', async () => {
         // Arrange
         let TestCourseController = new CourseController()
-        let number = ''
+        let department_id = '1'
+        let course_number = ''       
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: course_number
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeNumber(number)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
     })
 
-    it('number sanitation with integer at max SQL value', function () {
+    it('number sanitation with integer at max SQL value', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         var t = Math.pow(2, 31)
-        let number = t.toString()
+        let course_number = t.toString()
+        let department_id = '1' 
+        course_expected = {
+            id: 1,
+            department_id: 1,
+            course_number: course_number
+        }     
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: course_number
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeNumber(number)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(1)
+        expect(course_inserted).to.deep.equal(course_expected)
+        
     })
 
-    it('number sanitation with integer above max SQL value', function () {
+    it('number sanitation with integer above max SQL value', async () => {
         // Arrange
         let TestCourseController = new CourseController()
         var t = Math.pow(2, 32)
-        let number = t.toString
+        let course_number = t.toString
+        let department_id = '1'    
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: course_number
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeNumber(number)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
+
+        
     })
 
-    it('number sanitation with input as 0', function () {
+    it('number sanitation with input as 0', async () => {
         // Arrange
         let TestCourseController = new CourseController()
-        let number = '0'
+        let department_id = '1'
+        let course_number = '0'       
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: course_number
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeNumber(number)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(0)
+        expect(course_inserted).to.deep.equal(null)
     })
 
-    it('number sanitation with valid input', function () {
+    it('number sanitation with valid input', async () => {
         // Arrange
         let TestCourseController = new CourseController()
-        let number = '100'
+        let department_id = '1'
+        let course_number = '101'   
+        course_expected = {
+            id: 1,
+            department_id: 1,
+            course_number: course_number
+        }    
 
+        sandbox.stub(Course, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                department_id: 1,
+                course_number: course_number
+            })
+        })
+        
         // Act
-        let course_status = TestCourseController.sanitizeNumber(number)
+        let course_inserted = await TestCourseController.insert(department_id, course_number)
 
         // Assert
-        expect(course_status).to.equal(1)
+        expect(course_inserted).to.deep.equal(course_expected)
     })
 })

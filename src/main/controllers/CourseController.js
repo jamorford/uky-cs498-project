@@ -25,10 +25,17 @@ class CourseController {
     }
 
     // Insert a course
-    async insert(department_id, course_number) {     
-        return await Course
-            .query()
-            .insert(this.generateCoursePayload(department_id, course_number))
+    async insert(department_id, course_number) {
+        var dep_id = this.sanitizeDeptId(department_id)
+        var c_number = this.sanitizeNumber(course_number) 
+        if (dep_id == 0 || c_number == 0) {
+            return null
+        }   
+        else { 
+            return await Course
+                .query()
+                .insert(this.generateCoursePayload(department_id, course_number))
+        }
     }    
 
     // Update a course
@@ -69,7 +76,7 @@ class CourseController {
             san_status = 0
         }
         else {
-            san_status = 1
+            san_status = Janitor.sanitizeInt(department_id)
         }
         return san_status
     }
@@ -84,7 +91,7 @@ class CourseController {
             san_status = 0
         }
         else {
-            san_status = 1
+            san_status = Janitor.sanitizeInt(number)
         }
         return san_status
     }
