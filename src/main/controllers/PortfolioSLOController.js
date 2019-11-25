@@ -25,10 +25,17 @@ class PortfolioSLOController {
     }
 
     // Insert a course
-    async insert(portfolio_id, slo_id) {     
-        return await PortfolioSLO
-            .query()
-            .insert(this.generateCoursePayload(portfolio_id, slo_id))
+    async insert(portfolio_id, slo_id) {
+        var portid = this.sanitizePortfolioId(portfolio_id)  
+        var sid = this.sanitizeSLOId(slo_id)   
+        if (portid == 0 || sid == 0) {
+            return null
+        }
+        else {
+            return await PortfolioSLO
+                .query()
+                .insert(this.generateCoursePayload(portid, sid))
+        }
     }    
 
     // Update a course
@@ -69,7 +76,7 @@ class PortfolioSLOController {
             san_status = 0
         }
         else {
-            san_status = 1
+            san_status = Janitor.sanitizeInt(portfolio_id)
         }
         return san_status       // 0 means invalid input, 1 means sanitation is successful
     }
@@ -84,7 +91,7 @@ class PortfolioSLOController {
             san_status = 0
         }
         else {
-            san_status = 1
+            san_status = Janitor.sanitizeInt(slo_id)
         }
         return san_status       // 0 means invalid input, 1 means sanitation is successful
     }

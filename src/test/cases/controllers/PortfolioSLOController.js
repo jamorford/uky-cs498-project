@@ -211,150 +211,278 @@ describe('Controller - Portfolio SLO', () => {
 
     })
 
-    it('portfolio_id sanitation with negative integer', function () {
+    it('portfolio_id sanitation with negative integer', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        let portfolio_id = '-5'
+        let portfolio_id = '-4'
+        let slo_id = '1'       
+
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: -4,
+                slo_id: 1
+            })
+        })
         
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
+
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('portfolio_id sanitation with empty input', function () {
+    it('portfolio_id sanitation with empty input', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         let portfolio_id = ''
+        let slo_id = '1'       
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: portfolio_id,
+                slo_id: 1
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
+
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('portfolio_id sanitation with integer at max SQL value', function () {
+    it('portfolio_id sanitation with integer at max SQL value', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         var t = Math.pow(2,31)
         let portfolio_id = t.toString()
+        let slo_id = '1'       
+        slo_expected = {
+            id: 1,
+            portfolio_id: portfolio_id,
+            slo_id: 1
+        }
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: portfolio_id,
+                slo_id: 1
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(1)
+        expect(slo_inserted).to.deep.equal(slo_expected)
     })
 
-    it('portfolio_id sanitation with integer above max SQL value', function () {
+    it('portfolio_id sanitation with integer above max SQL value', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         var t = Math.pow(2,32)
         let portfolio_id = t.toString()
+        let slo_id = '1'       
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: portfolio_id,
+                slo_id: 1
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('portfolio_id sanitation with input as 0', function () {
+    it('portfolio_id sanitation with input as 0', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         let portfolio_id = '0'
+        let slo_id = '1'       
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: portfolio_id,
+                slo_id: 1
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('portfolio_id sanitation with valid input', function () {
+    it('portfolio_id sanitation with valid input', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         let portfolio_id = '1'
-
+        let slo_id = '1'       
+        slo_expected = {
+            id: 1,
+            portfolio_id: portfolio_id,
+            slo_id: 1
+        }
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: portfolio_id,
+                slo_id: 1
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizePortfolioId(portfolio_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(1)
+        expect(slo_inserted).to.deep.equal(slo_expected)
     })
 
-    it('slo_id sanitation with negative integer', function () {
+    it('slo_id sanitation with negative integer', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        let slo_id = '-5'
+        let portfolio_id = '1'
+        let slo_id = '-4'       
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: 1,
+                slo_id: slo_id
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('slo_id sanitation with empty input', function () {
+    it('slo_id sanitation with empty input', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        let slo_id = ''
+        let portfolio_id = '1'
+        let slo_id = ''       
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: 1,
+                slo_id: slo_id
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('slo_id sanitation with input at max SQL value', function () {
+    it('slo_id sanitation with input at max SQL value', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         var t = Math.pow(2,31)
         let slo_id = t.toString()
-
+        let portfolio_id = '1'    
+        slo_expected = {
+            id: 1,
+            portfolio_id: 1,
+            slo_id: slo_id
+        }
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: 1,
+                slo_id: slo_id
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(1)
+        expect(slo_inserted).to.deep.equal(slo_expected)
     })
 
-    it('slo_id sanitation with input above max SQL value', function () {
+    it('slo_id sanitation with input above max SQL value', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
         var t = Math.pow(2,32)
         let slo_id = t.toString()
+        let portfolio_id = '1'       
 
-        // Act 
-        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: 1,
+                slo_id: slo_id
+            })
+        })
+        
+        // Act
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('slo_id sanitation with input as 0', function () {
+    it('slo_id sanitation with input as 0', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        let slo_id = '0'
+        let portfolio_id = '1'
+        let slo_id = '0'       
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: 1,
+                slo_id: slo_id
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(0)
+        expect(slo_inserted).to.deep.equal(null)
     })
 
-    it('slo_id sanitation with valid input', function () {
+    it('slo_id sanitation with valid input', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        let slo_id = '1'
+        let portfolio_id = '1'
+        let slo_id = '1'  
+        slo_expected = {
+            id: 1,
+            portfolio_id: 1,
+            slo_id: slo_id
+        }     
 
+        sandbox.stub(PortfolioSLO, "query").returns({
+            insert: sandbox.stub().returns({
+                id: 1,
+                portfolio_id: 1,
+                slo_id: slo_id
+            })
+        })
+        
         // Act
-        let slo_status = TestPortfolioSLOController.sanitizeSLOId(slo_id)
+        let slo_inserted = await TestPortfolioSLOController.insert(portfolio_id, slo_id)
 
         // Assert
-        expect(slo_status).to.equal(1)
+        expect(slo_inserted).to.deep.equal(slo_expected)
     })
 
     
