@@ -256,7 +256,7 @@ describe('Controller - Portfolio SLO', () => {
     it('portfolio_id sanitation with integer at max SQL value', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        var t = Math.pow(2,31)
+        var t = Math.pow(2,31)-1
         let portfolio_id = t.toString()
         let slo_id = '1'       
         slo_expected = {
