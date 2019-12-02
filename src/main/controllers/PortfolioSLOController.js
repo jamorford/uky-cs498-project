@@ -88,7 +88,7 @@ class PortfolioSLOController {
         // method to check for non-empty input and valid integer
         var san_status
         if (Janitor.sanitizeInt(slo_id) == null || Janitor.sanitizeInt(slo_id) <= 0 || Janitor.sanitizeInt(slo_id) > MAXINT) {
-            san_status = 0
+            san_status = null
         }
         else {
             san_status = Janitor.sanitizeInt(slo_id)
