@@ -83,7 +83,7 @@ class PortfolioSLOController {
 
     // sanitize slo_id attribute
     sanitizeSLOId(slo_id) {
-        var MAXINT = Math.pow(2,31)         // variable to represent maximum value for a SQL int
+        var MAXINT = Math.pow(2,31)-1         // variable to represent maximum value for a SQL int
         
         // method to check for non-empty input and valid integer
         var san_status
