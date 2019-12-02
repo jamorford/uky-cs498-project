@@ -1,8 +1,19 @@
 <section id="course_manage_page" class="container">
-	<h2>CS498 Course Portfolio</h2>
-	<div class="container row">
-		Course Summary
-	</div>
+	{{#course}}
+	<h2>
+		<!-- NOTE: The funky comments are to get rid of whitespace in between spans-->
+		<span id="class_department">{{department}}</span><!--
+		!--><span id="class_number">{{number}}</span><!--
+		!--><span>-</span><!--
+		!--><span id="class_section">{{section}}</span><!--
+		!--><span> </span><!--
+		!--><span id="class_semester">{{semester}}</span><!--
+		!--><span> </span><!--
+		!--><span id="class_year">{{year}}</span><!--
+		!--><span> Course Portfolio</span>
+		<script src="/js/course_portfolio_header.js"></script>
+	</h2>
+	{{/course}}
 	<div class="container row">
 		{{#outcomes}}
 		<h3>Student Learning Outcome {{index}}</h3>
