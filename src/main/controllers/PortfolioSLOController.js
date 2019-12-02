@@ -28,7 +28,7 @@ class PortfolioSLOController {
     async insert(portfolio_id, slo_id) {
         var portid = this.sanitizePortfolioId(portfolio_id)  
         var sid = this.sanitizeSLOId(slo_id)   
-        if (portid == 0 || sid == 0) {
+        if (portid == null || sid == null) {
             return null
         }
         else {
