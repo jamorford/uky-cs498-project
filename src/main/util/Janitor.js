@@ -45,5 +45,19 @@ class Janitor {
             return null
         }    
     }
+
+    static sanitizeIntPostgres(input) {
+        var cleanInt = Janitor.sanitizeInt(input)
+        if (cleanInt == null) {
+            return null
+        }
+
+        const max_postgres_int = Math.pow(2,31)
+        if(cleanInt >= (-1)*max_postgres_int && cleanInt < max_postgres_int) {
+            return cleanInt
+        } else {
+            return null
+        }
+    }
 }
 module.exports = Janitor

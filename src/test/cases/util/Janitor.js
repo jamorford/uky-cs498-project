@@ -174,4 +174,73 @@ describe('Utility - Janitor', () => {
         expect(test_output).to.be.null
     })
 
+    it('sanitizeIntPostgres(int) returns int', async () => {
+        // Arrange
+        test_input = 100
+        test_expected = 100
+
+        // Act
+        test_output = Janitor.sanitizeIntPostgres(test_input)
+
+        // Assert
+        expect(test_output).to.equal(test_expected)
+    })
+
+    it('sanitizeIntPostgres(null) returns null', async () => {
+        // Arrange
+        test_input = null
+
+        // Act
+        test_output = Janitor.sanitizeIntPostgres(test_input)
+
+        // Assert
+        expect(test_output).to.be.null
+    })
+
+    it('sanitizeIntPostgres(max exceeded) returns null', async () => {
+        // Arrange
+        test_input = Math.pow(2,31)
+
+        // Act
+        test_output = Janitor.sanitizeIntPostgres(test_input)
+
+        // Assert
+        expect(test_output).to.be.null
+    })
+
+    it('sanitizeIntPostgres(min exceeded) returns null', async () => {
+        // Arrange
+        test_input = (Math.pow(2,31)+1)*(-1)
+
+        // Act
+        test_output = Janitor.sanitizeIntPostgres(test_input)
+
+        // Assert
+        expect(test_output).to.be.null
+    })
+
+    it('sanitizeIntPostgres(max boundary) returns int', async () => {
+        // Arrange
+        test_input = Math.pow(2,31)-1
+        test_expected = 2147483647
+
+        // Act
+        test_output = Janitor.sanitizeIntPostgres(test_input)
+
+        // Assert
+        expect(test_output).to.equal(test_expected)
+    })
+
+    it('sanitizeIntPostgres(min boundary) returns int', async () => {
+        // Arrange
+        test_input = Math.pow(2,31)*(-1)
+        test_expected = -2147483648
+
+        // Act
+        test_output = Janitor.sanitizeIntPostgres(test_input)
+
+        // Assert
+        expect(test_output).to.equal(test_expected)
+    })
+
 })
