@@ -73,7 +73,7 @@ class CourseController {
         // method to check for non-empty input and valid integer
         var san_status
         if (Janitor.sanitizeInt(department_id) == null || Janitor.sanitizeInt(department_id) <= 0 || Janitor.sanitizeInt(department_id) > MAXINT) { // can this be 0?
-            san_status = 0
+            san_status = null
         }
         else {
             san_status = Janitor.sanitizeInt(department_id)
