@@ -1,6 +1,6 @@
 'use strict';
 
-const { Model } = require('objection');
+const {Model} = require('objection');
 
 class CoursePortfolioArtifactEvaluation extends Model {
   // Table name is the only required property.
@@ -21,23 +21,23 @@ class CoursePortfolioArtifactEvaluation extends Model {
       required: [
         'artifact_id',
         'evaluation_index',
-        'student_index'
+        'student_index',
       ],
 
       properties: {
-        id: { type: 'integer' },
-        artifact_id: { type: 'integer' },
-        evaluation_index: { type: 'integer' },
-        student_index: { type: 'integer' },
-        evaluation: { type: 'object' },
-        file: { type: 'string' }
-      }
+        id: {type: 'integer'},
+        artifact_id: {type: 'integer'},
+        evaluation_index: {type: 'integer'},
+        student_index: {type: 'integer'},
+        evaluation: {type: 'object'},
+        file: {type: 'string'},
+      },
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-    const Artifact = require('.')
+    const Artifact = require('.');
 
     return {
       owner: {
@@ -45,9 +45,9 @@ class CoursePortfolioArtifactEvaluation extends Model {
         modelClass: Artifact,
         join: {
           from: 'artifact_evaluation.artifact_id',
-          to: 'artifact.id'
-        }
-      }
+          to: 'artifact.id',
+        },
+      },
     };
   }
 }

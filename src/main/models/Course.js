@@ -1,6 +1,6 @@
 'use strict';
 
-const { Model } = require('objection');
+const {Model} = require('objection');
 
 class Course extends Model {
   // Table name is the only required property.
@@ -21,10 +21,10 @@ class Course extends Model {
       required: ['department_id', 'number'],
 
       properties: {
-        id: { type: 'integer' },
-        department_id: { type: 'integer' },
-        number: { type: 'integer' },
-      }
+        id: {type: 'integer'},
+        department_id: {type: 'integer'},
+        number: {type: 'integer'},
+      },
     };
   }
 
@@ -38,9 +38,9 @@ class Course extends Model {
         modelClass: Department,
         join: {
           from: 'course.department_id',
-          to: 'department.id'
-        }
-      }
+          to: 'department.id',
+        },
+      },
     };
   }
 }

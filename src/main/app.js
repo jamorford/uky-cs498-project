@@ -7,23 +7,23 @@ const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 
 // init objection
-require('./common/objection')
+require('./common/objection');
 
 // init express
-var app = express();
+const app = express();
 
-var project_root = path.join(__dirname, '../..')
+const project_root = path.join(__dirname, '../..');
 
-app.engine('html', mustacheExpress())
+app.engine('html', mustacheExpress());
 
-app.set('view engine', 'html')
-app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
 
-app.use(helmet())
+app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
-  extended: false
+  extended: false,
 }));
 app.use(cookieParser());
 app.use('/css', sassMiddleware({
@@ -31,11 +31,11 @@ app.use('/css', sassMiddleware({
   dest: path.join(project_root, 'public/css'),
   indentedSyntax: false,
   sourceMap: true,
-  debug: false
+  debug: false,
 }));
 app.use(express.static(path.join(project_root, 'public')));
 
-app.use('/', require('./routes/index'))
+app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/course', require('./routes/course'));
 

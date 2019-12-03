@@ -1,6 +1,6 @@
 'use strict';
 
-const { Model } = require('objection');
+const {Model} = require('objection');
 
 class StudentLearningOutcome extends Model {
   // Table name is the only required property.
@@ -21,11 +21,11 @@ class StudentLearningOutcome extends Model {
       required: ['type'],
 
       properties: {
-        id: { type: 'integer' },
-        index: { type: 'integer' },
-        description: { type: 'string' },
-        student_learning_objective_metric: { type: 'json' }
-      }
+        id: {type: 'integer'},
+        index: {type: 'integer'},
+        description: {type: 'string'},
+        student_learning_objective_metric: {type: 'json'},
+      },
     };
   }
 
@@ -39,9 +39,9 @@ class StudentLearningOutcome extends Model {
         modelClass: Metric,
         join: {
           from: 'slo.id',
-          to: 'slo_metric.slo_id'
-        }
-      }
+          to: 'slo_metric.slo_id',
+        },
+      },
     };
   }
 }

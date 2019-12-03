@@ -1,6 +1,6 @@
 'use strict';
 
-const { Model } = require('objection');
+const {Model} = require('objection');
 
 class Metric extends Model {
   // Table name is the only required property.
@@ -21,13 +21,13 @@ class Metric extends Model {
       required: ['name', 'exceeds', 'meets', 'partially', 'not'],
 
       properties: {
-        id: { type: 'integer' },
-        name: { type: 'integer' },
-        exceeds: { type: 'string' },
-        meets: { type: 'string' },
-        partially: { type: 'string' },
-        not: { type: 'string' },
-      }
+        id: {type: 'integer'},
+        name: {type: 'integer'},
+        exceeds: {type: 'string'},
+        meets: {type: 'string'},
+        partially: {type: 'string'},
+        not: {type: 'string'},
+      },
     };
   }
 
@@ -41,9 +41,9 @@ class Metric extends Model {
         modelClass: StudentLearningOutcome,
         join: {
           from: 'slo_metric.slo_id',
-          to: 'slo.id'
-        }
-      }
+          to: 'slo.id',
+        },
+      },
     };
   }
 }
