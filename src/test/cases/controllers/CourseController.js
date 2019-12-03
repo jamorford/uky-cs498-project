@@ -18,8 +18,8 @@ describe('Controller - Course', () => {
     it('generates a payload', async () => {
         // Arrange
         const TestCourseController = new CourseController()
-        let department_id = '1'
-        let course_number = '101'
+        let department_id = 1
+        let course_number = 101
         expected_payload = {
             department_id: 1,
             number: 101
