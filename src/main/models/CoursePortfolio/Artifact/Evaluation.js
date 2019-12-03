@@ -29,7 +29,7 @@ class CoursePortfolioArtifactEvaluation extends Model {
         artifact_id: { type: 'integer' },
         evaluation_index: { type: 'integer' },
         student_index: { type: 'integer' },
-        evaluation: { type: 'string' },
+        evaluation: { type: 'object' },
         file: { type: 'string' }
       }
     };
