@@ -5,8 +5,8 @@ class CourseController {
     // Generate query payload
     generateCoursePayload(department_id, course_number) {
         return {
-            department_id: Janitor.parseIntHandler(department_id),
-            number: Janitor.parseIntHandler(course_number)
+            department_id: department_id,
+            number: course_number
         }
     }
 
@@ -20,8 +20,8 @@ class CourseController {
         else {
             return await Course
                 .query()
-                .where('department_id', parseInt(department_id))
-                .where('number', parseInt(course_number))
+                .where('department_id', deptid)
+                .where('number', cid)
         }
     }
 
@@ -33,7 +33,7 @@ class CourseController {
         else {
             return await Course
                 .query()
-                .findById(id)
+                .findById(sanitized)
         }
     }
 
@@ -47,7 +47,7 @@ class CourseController {
         else { 
             return await Course
                 .query()
-                .insert(this.generateCoursePayload(department_id, course_number))
+                .insert(this.generateCoursePayload(dep_id, c_number))
         }
     }    
 
@@ -62,7 +62,7 @@ class CourseController {
         else {
             return await Course
                 .query()
-                .patchAndFetchById(id, this.generateCoursePayload(department_id, course_number))
+                .patchAndFetchById(sanitized, this.generateCoursePayload(deptid, cid))
         }
     }    
 
@@ -77,8 +77,8 @@ class CourseController {
             const numDeleted = await Course
                 .query()
                 .delete()
-                .where('department_id', parseInt(department_id))
-                .where('number', parseInt(course_number))
+                .where('department_id', deptid)
+                .where('number', cid)
             
             return numDeleted > 0
         }
@@ -93,7 +93,7 @@ class CourseController {
         else {
             const numDeleted = await Course
                 .query()
-                .deleteById(id)
+                .deleteById(sanitized)
 
             return numDeleted > 0
         }
