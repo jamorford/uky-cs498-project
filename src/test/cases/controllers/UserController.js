@@ -173,4 +173,98 @@ describe ('Controller - User', () => {
         expect(userDeleted).to.equal(false)
 
     })
+
+    it('get/update/delete with negative id is null/false', async () => {
+        // Arrange
+        let TestUserController = new UserController()
+        var id = -1
+        var linkblue = "joe123"
+
+        // Act
+        let test_output_1 = await TestUserController.getById(id)
+        let test_output_2 = await TestUserController.updateById(id, linkblue)
+        let test_output_3 = await TestUserController.deleteById(id)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.equal(false)
+
+    })
+
+    it('get/update/delete with invalid id is null/false', async () => {
+        // Arrange
+        let TestUserController = new UserController()
+        var id = "invalid"
+        var linkblue = "joe123"
+
+        // Act
+        let test_output_1 = await TestUserController.getById(id)
+        let test_output_2 = await TestUserController.updateById(id, linkblue)
+        let test_output_3 = await TestUserController.deleteById(id)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.equal(false)
+
+    })
+
+    it('get/update/delete with too large id is null/false', async () => {
+        // Arrange
+        let TestUserController = new UserController()
+        var id = Math.pow(2,32)
+        var linkblue = "joe123"
+
+        // Act
+        let test_output_1 = await TestUserController.getById(id)
+        let test_output_2 = await TestUserController.updateById(id, linkblue)
+        let test_output_3 = await TestUserController.deleteById(id)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.equal(false)
+
+    })
+
+    it('get/insert/update/delete with invalid linkblue_id is null/false', async () => {
+        // Arrange
+        let TestUserController = new UserController()
+        var id = 1
+        var linkblue = ""
+
+        // Act
+        let test_output_1 = await TestUserController.getByAttributes(linkblue)
+        let test_output_2 = await TestUserController.updateById(id, linkblue)
+        let test_output_3 = await TestUserController.deleteByAttributes(linkblue)
+        let test_output_4 = await TestUserController.insert(linkblue)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.equal(false)
+        expect(test_output_4).to.be.null
+
+    })
+
+    it('get/insert/update/delete with too long linkblue_id is null/false', async () => {
+        // Arrange
+        let TestUserController = new UserController()
+        var id = 1
+        var linkblue = "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345"
+
+        // Act
+        let test_output_1 = await TestUserController.getByAttributes(linkblue)
+        let test_output_2 = await TestUserController.updateById(id, linkblue)
+        let test_output_3 = await TestUserController.deleteByAttributes(linkblue)
+        let test_output_4 = await TestUserController.insert(linkblue)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.equal(false)
+        expect(test_output_4).to.be.null
+
+    })
 })
