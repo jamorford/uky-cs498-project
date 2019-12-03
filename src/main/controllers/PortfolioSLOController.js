@@ -5,8 +5,8 @@ class PortfolioSLOController {
     // Generate query payload
     generateCoursePayload(portfolio_id, slo_id) {
         return {
-            portfolio_id: Janitor.parseIntHandler(portfolio_id),
-            slo_id: Janitor.parseIntHandler(slo_id)
+            portfolio_id: portfolio_id,
+            slo_id: slo_id
         }
     }
 
@@ -20,8 +20,8 @@ class PortfolioSLOController {
         else {
             return await PortfolioSLO
                 .query()
-                .where('portfolio_id', parseInt(portfolio_id))
-                .where('slo_id', parseInt(slo_id))
+                .where('portfolio_id', portid)
+                .where('slo_id', slo_id)
         }
     }
 
@@ -33,7 +33,7 @@ class PortfolioSLOController {
         else {
             return await PortfolioSLO
                 .query()
-                .findById(id)
+                .findById(sanitized)
         }
     }
 
@@ -62,7 +62,7 @@ class PortfolioSLOController {
         else {
             return await PortfolioSLO
                 .query()
-                .patchAndFetchById(id, this.generateCoursePayload(portfolio_id, slo_id))
+                .patchAndFetchById(checkid, this.generateCoursePayload(portid, sid))
         }
     }    
 
@@ -77,8 +77,8 @@ class PortfolioSLOController {
             const numDeleted = await PortfolioSLO
                 .query()
                 .delete()
-                .where('portfolio_id', parseInt(portfolio_id))
-                .where('slo_id', parseInt(slo_id))
+                .where('portfolio_id', portid)
+                .where('slo_id', sid)
 
             return numDeleted > 0
         }
@@ -94,7 +94,7 @@ class PortfolioSLOController {
         else {
             const numDeleted = await PortfolioSLO
                 .query()
-                .deleteById(id)
+                .deleteById(sanitized)
 
             return numDeleted > 0
         }
