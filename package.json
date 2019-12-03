@@ -14,7 +14,9 @@
     "run_db": "docker build db/. -t abet-database && docker run -d --rm -p 5432:5432 abet-database",
     "setup_db": "npm run migrate && npm run migrate:test && npm run seed && npm run seed:test",
     "test": "cross-env NODE_ENV=test nyc node ./node_modules/mocha/bin/mocha --exit \"src/test/cases/**/*.js\"",
-    "test_coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=719884bc-4dbd-4174-ad0e-a7a7a31a82fb"
+    "test_coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=719884bc-4dbd-4174-ad0e-a7a7a31a82fb",
+    "lint": "./node_modules/.bin/eslint ./src/main",
+    "lint_fix": "./node_modules/.bin/eslint --fix ./src/main"
   },
   "repository": {
     "type": "git",
@@ -44,6 +46,8 @@
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.6.1",
     "cross-env": "^6.0.3",
+    "eslint": "^6.7.2",
+    "eslint-config-google": "^0.14.0",
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "nyc": "^14.1.1",
