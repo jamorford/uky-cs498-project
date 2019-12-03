@@ -19,8 +19,8 @@ describe('Controller - Portfolio SLO', () => {
     it('generates a payload', async () => {
         // Arrange
         let TestPortfolioSLOController = new PortfolioSLOController()
-        let portfolio_id = '1'
-        let slo_id = '1'
+        let portfolio_id = 1
+        let slo_id = 1
         expected_payload = {
             portfolio_id: 1,
             slo_id: 1
