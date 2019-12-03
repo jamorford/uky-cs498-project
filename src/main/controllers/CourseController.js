@@ -28,7 +28,7 @@ class CourseController {
     async insert(department_id, course_number) {
         var dep_id = this.sanitizeDeptId(department_id)
         var c_number = this.sanitizeNumber(course_number) 
-        if (dep_id == 0 || c_number == 0) {
+        if (dep_id == null || c_number == null) {
             return null
         }   
         else { 
