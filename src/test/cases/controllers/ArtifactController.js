@@ -274,6 +274,28 @@ describe ('Controller - Artifact', () => {
 
     })
 
+    it('get/insert/update/delete with too large id attribute is null/false', async () => {
+        // Arrange
+        let TestArtifactController = new ArtifactController()
+        var id = 0
+        var portfolio_slo_id = Math.pow(2,32)
+        var index = 0
+        var name = "name"
+
+        // Act
+        let test_output_1 = await TestArtifactController.getByAttributes(portfolio_slo_id, index, name)
+        let test_output_2 = await TestArtifactController.updateById(id, portfolio_slo_id, index, name)
+        let test_output_3 = await TestArtifactController.insert(portfolio_slo_id, index, name)
+        let test_output_4 = await TestArtifactController.deleteByAttributes(portfolio_slo_id, index, name)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.be.null
+        expect(test_output_4).to.equal(false)
+
+    })
+
     it('get/insert/update/delete with invalid index attribute is null/false', async () => {
         // Arrange
         let TestArtifactController = new ArtifactController()
@@ -302,6 +324,28 @@ describe ('Controller - Artifact', () => {
         var id = 0
         var portfolio_slo_id = 0
         var index = -1
+        var name = "name"
+
+        // Act
+        let test_output_1 = await TestArtifactController.getByAttributes(portfolio_slo_id, index, name)
+        let test_output_2 = await TestArtifactController.updateById(id, portfolio_slo_id, index, name)
+        let test_output_3 = await TestArtifactController.insert(portfolio_slo_id, index, name)
+        let test_output_4 = await TestArtifactController.deleteByAttributes(portfolio_slo_id, index, name)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.be.null
+        expect(test_output_4).to.equal(false)
+
+    })
+
+    it('get/insert/update/delete with too large index attribute is null/false', async () => {
+        // Arrange
+        let TestArtifactController = new ArtifactController()
+        var id = 0
+        var portfolio_slo_id = 0
+        var index = Math.pow(2,32)
         var name = "name"
 
         // Act
@@ -387,6 +431,27 @@ describe ('Controller - Artifact', () => {
         // Arrange
         let TestArtifactController = new ArtifactController()
         var id = -1
+        var portfolio_slo_id = 0
+        var index = 0
+        var name = "name"
+
+        // Act
+        let test_output_1 = await TestArtifactController.getById(id)
+        let test_output_2 = await TestArtifactController.updateById(id, portfolio_slo_id, index, name)
+        let test_output_3 = await TestArtifactController.deleteById(id)
+
+        // Assert
+        expect(test_output_1).to.be.null
+        expect(test_output_2).to.be.null
+        expect(test_output_3).to.equal(false)
+
+
+    })
+
+    it('get/update/delete with too large database id attribute is null/false', async () => {
+        // Arrange
+        let TestArtifactController = new ArtifactController()
+        var id = Math.pow(2,32)
         var portfolio_slo_id = 0
         var index = 0
         var name = "name"
