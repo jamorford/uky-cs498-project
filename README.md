@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/jonathanamorford/cs498-project/branch/develop/graph/badge.svg)](https://codecov.io/gh/jonathanamorford/cs498-project)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=jonathanamorford_cs498-project&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jonathanamorford_cs498-project)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=jonathanamorford_cs498-project&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=jonathanamorford_cs498-project)
+
 # ABET Submission System
 
 This repository is being developed by Ethan Toney for use by the Computer Science department at the University of Kentucky. Only students of Ethan Toney's Fall 2019 CS498 course have permission to download and edit this repository for the purpose of accomplishing the final project.
