@@ -83,7 +83,7 @@ class CourseController {
 
     // sanitize number attribute
     sanitizeNumber(number) {
-        var MAXINT = Math.pow(2, 31)     // variable to represent maximum SQL value for an int
+        var MAXINT = Math.pow(2, 31)-1     // variable to represent maximum SQL value for an int
 
         // method to check for non-empty input and valid integer
         var san_status
