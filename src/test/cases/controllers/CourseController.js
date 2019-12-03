@@ -255,7 +255,7 @@ describe('Controller - Course', () => {
     it('department_id sanitation with integer at max SQL value', async () => {
         // Arrange
         let TestCourseController = new CourseController()
-        var t = Math.pow(2,31)
+        var t = Math.pow(2,31)-1
         let department_id = t.toString()
         let course_number = '101'   
         course_expected = {
