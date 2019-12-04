@@ -1,6 +1,6 @@
 'use strict';
 
-const { Model } = require('objection');
+const {Model} = require('objection');
 
 class User extends Model {
   // Table name is the only required property.
@@ -21,16 +21,14 @@ class User extends Model {
       required: ['linkblue_username'],
 
       properties: {
-        id: { type: 'integer' },
-        linkblue_username: { type: 'string' },
-      }
+        id: {type: 'integer'},
+        linkblue_username: {type: 'string'},
+      },
     };
   }
 
   // This object defines the relations to other models.
   static get relationMappings() {
-
-
     return {
     };
   }

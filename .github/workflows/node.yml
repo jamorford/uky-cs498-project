@@ -1,0 +1,53 @@
+name: Node
+
+'on':
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - name: Checking out most recent version of code
+      uses: actions/checkout@v1
+      
+    - name: Using Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+        
+    - name: Clean npm install
+      run: npm ci
+
+    - name: Install Dependencies
+      run: sudo apt install postgresql-client-10 postgresql-client-common
+
+    - name: Create Databases
+      run: psql -h localhost -U postgres -f ./db/abet-database.sql
+      env:
+        PGPASSWORD: 'password'
+
+    - name: Set-up Database
+      run: npm run setup_db
+      
+    - name: Unit tests
+      run: npm test
+
+    - name: Code Coverage
+      run: npm run test_coverage

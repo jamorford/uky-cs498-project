@@ -5,7 +5,7 @@ const common = {
 	},
 	pool: {
 		min: 2,
-		max: 10
+    max: 10
 	}
 }
 
@@ -13,6 +13,7 @@ module.exports = {
   development: Object.assign({
     connection: {
       database: 'abet_system_dev',
+      host : '127.0.0.1',
       user: 'postgres',
       password: 'password'
     },
@@ -24,6 +25,7 @@ module.exports = {
   test: Object.assign({
     connection: {
       database: 'abet_system_test',
+      host : '127.0.0.1',
       user: 'postgres',
       password: 'password'
     },
@@ -35,6 +37,7 @@ module.exports = {
   production: Object.assign({
     connection: {
       database: 'abet_system',
+      host : '127.0.0.1',
       user: 'postgres',
       password: 'password'
     }
