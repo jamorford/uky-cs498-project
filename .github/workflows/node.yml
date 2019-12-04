@@ -23,6 +23,15 @@ jobs:
         
     - name: Clean npm install
       run: npm ci
+
+    - name: Run Database Backend
+      run: npm run_db
+
+    - name: Set-up Database
+      run: npm setup_db
       
     - name: Unit tests
       run: npm test
+
+    - name: Code Coverage
+      run: npm test_coverage
