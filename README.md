@@ -1,4 +1,3 @@
-[![codecov](https://codecov.io/gh/jonathanamorford/cs498-project/branch/master/graph/badge.svg)](https://codecov.io/gh/jonathanamorford/cs498-project)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=jonathanamorford_cs498-project&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jonathanamorford_cs498-project)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=jonathanamorford_cs498-project&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=jonathanamorford_cs498-project)
 
