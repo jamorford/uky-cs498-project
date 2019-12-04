@@ -5,6 +5,7 @@ name: Node
     branches:
     - master
   pull_request:
+    branches:
     - '*'
 
 jobs:
