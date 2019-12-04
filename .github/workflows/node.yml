@@ -35,6 +35,9 @@ jobs:
     - name: Clean npm install
       run: npm ci
 
+    - name: Install Dependencies
+      run: apt install postgresql-client-10 postgresql-client-common
+
     - name: Create Databases
       run: psql -h localhost -U postgres -f ./db/abet-database.sql
       env:
