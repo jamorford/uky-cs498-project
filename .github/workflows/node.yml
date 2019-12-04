@@ -35,6 +35,11 @@ jobs:
     - name: Clean npm install
       run: npm ci
 
+    - name: Create Databases
+      run: psql -h localhost -U postgres -f ./db/abet-database.sql
+      env:
+        PGPASSWORD: 'password'
+
     - name: Set-up Database
       run: npm run setup_db
       
