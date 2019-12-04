@@ -5,7 +5,8 @@ const common = {
 	},
 	pool: {
 		min: 2,
-		max: 10
+    max: 10,
+    idleTimeoutMillis: 30000
 	}
 }
 

@@ -27,9 +27,6 @@ jobs:
     - name: Run Database Backend
       run: npm run run_db
 
-    - name: test
-      run: docker ps
-
     - name: Set-up Database
       run: npm run setup_db
       
