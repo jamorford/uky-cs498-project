@@ -17,7 +17,7 @@ describe('Model - CoursePortfolio', () => {
 				num_students: 5,
 				section: 1,
 				year: 2019,
-				expireDate: Date.parse('January 1, 2020'),
+				expireDate: Date.parse('January 1, 2020').toString(),
 			})
 		})
 
