@@ -25,13 +25,13 @@ jobs:
       run: npm ci
 
     - name: Run Database Backend
-      run: npm run_db
+      run: npm run run_db
 
     - name: Set-up Database
-      run: npm setup_db
+      run: npm run setup_db
       
     - name: Unit tests
       run: npm test
 
     - name: Code Coverage
-      run: npm test_coverage
+      run: npm run test_coverage
