@@ -1,0 +1,27 @@
+name: Node
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    - *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checking out most recent version of code
+      uses: actions/checkout@v1
+      
+    - name: Using Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+        
+    - name: Clean npm install
+      run: npm ci
+      
+    - name: Unit tests
+      run: npm test
